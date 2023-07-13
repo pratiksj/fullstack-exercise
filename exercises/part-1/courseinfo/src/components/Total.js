@@ -1,11 +1,18 @@
-const Total = (props) => {
+const Total = ({ parts }) => {
   return (
-    <p>
-      Number of exercises
-      {props.parts[0].exercises +
-        props.parts[1].exercises +
-        props.parts[2].exercises}
-    </p>
+    <div>
+      <div style={{ display: "inline-block" }}>
+        <p>Number of exercises</p>
+      </div>
+      <div style={{ display: "inline-block" }}>
+        <span>
+          {parts.reduce(
+            (accumulator, currentVal) => accumulator + currentVal.exercises,
+            0
+          )}
+        </span>
+      </div>
+    </div>
   );
 };
 
