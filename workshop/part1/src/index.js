@@ -3,16 +3,10 @@ import ReactDOM from 'react-dom/client'
 
 import App from './App'
 
-let myCout = 1
 
-const refresh=()=>{
-    ReactDOM.createRoot(document.getElementById('root')).render(<App counter={myCout} />)
 
-}
+ReactDOM.createRoot(document.getElementById('root')).render(<App />)
 
-setInterval(()=>{
-refresh()
-myCout++
-},1000)
+
 
 
