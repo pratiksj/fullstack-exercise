@@ -29,10 +29,6 @@ const App = () => {
         <Content data={data} key={index} />
       ))}
 
-      {/* {course.parts.map((data, index) => (
-        <Total data={data} key={index} />
-      ))} */}
-
       <Total parts={course.parts} />
     </div>
   );
