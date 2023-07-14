@@ -1,18 +1,18 @@
+import StatisticLine from "./StatisticLine";
+
 const Statistics = ({ good, neutral, bad }) => {
-  const percentage = () => {
-    let total = good + neutral + bad;
-    return (good / total) * 100;
-  };
+  let total = good + neutral + bad;
+  let percentage = (good / total) * 100;
+  let average = (good - bad) / 3;
   if (good !== 0 || neutral !== 0 || bad !== 0) {
     return (
       <div>
-        <h1>statistics</h1>
-        <p>good:{good}</p>
-        <p>neutral:{neutral}</p>
-        <p>bad:{bad}</p>
-        <p>all:{good + neutral + bad}</p>
-        <p>average:{(good - bad) / 3}</p>
-        <p>positive:{percentage()}%</p>
+        <StatisticLine text="good" value={good} />
+        <StatisticLine text="neutral" value={neutral} />
+        <StatisticLine text="bad" value={bad} />
+        <p>all:{total}</p>
+        <p>average:{average}</p>
+        <p>positive:{percentage}</p>
       </div>
     );
   } else {
