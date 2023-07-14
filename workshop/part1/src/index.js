@@ -10,6 +10,9 @@ const refresh=()=>{
 
 }
 
+setInterval(()=>{
 refresh()
-myCout =myCout+1
-refresh()
+myCout++
+},1000)
+
+
