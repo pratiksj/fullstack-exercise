@@ -26,6 +26,7 @@ const App = () => {
         neutralClick={neutralHandler}
         badClick={badHandler}
       />
+      <h1>statistics</h1>
       <Statistics good={good} neutral={neutral} bad={bad} />
     </div>
   );
