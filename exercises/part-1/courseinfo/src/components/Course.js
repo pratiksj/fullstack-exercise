@@ -1,5 +1,6 @@
 import Content from "./Content";
 import Header from "./Header";
+import Total from "./Total";
 
 const Course = ({ course }) => {
   return (
@@ -8,6 +9,7 @@ const Course = ({ course }) => {
       {course.parts.map((part) => {
         return <Content data={part} key={part.id} />;
       })}
+      <Total parts={course.parts} />
     </div>
   );
 };

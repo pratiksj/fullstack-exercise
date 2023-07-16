@@ -1,12 +1,12 @@
 const Total = ({ parts }) => {
   return (
-    <div>
+    <h3>
       Number of exercise{" "}
       {parts.reduce(
         (accumulator, currentVal) => accumulator + currentVal.exercises,
         0
       )}
-    </div>
+    </h3>
   );
 };
 
