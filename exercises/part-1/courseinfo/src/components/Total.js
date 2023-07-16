@@ -1,8 +1,8 @@
-const Total = ({ parts }) => {
+const Total = ({ data }) => {
   return (
     <h3>
       Number of exercise{" "}
-      {parts.reduce(
+      {data.parts.reduce(
         (accumulator, currentVal) => accumulator + currentVal.exercises,
         0
       )}
