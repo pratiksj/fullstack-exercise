@@ -3,8 +3,10 @@ import { useState } from "react";
 const App = ({ notes }) => {
   return (
     <div>
-      <h1>Notes contain at 0 index</h1>
-      <p>{notes[0].content}</p>
+      <h1>Notes contains are</h1>
+      {notes.map((note) => {
+        return <div key={note.id}>{note.content}</div>;
+      })}
     </div>
   );
 };
