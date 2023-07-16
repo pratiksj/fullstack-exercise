@@ -46,6 +46,22 @@ const App = () => {
         },
       ],
     },
+    {
+      name: "Ex.Machina",
+      id: 2,
+      parts: [
+        {
+          name: "Amir",
+          exercises: 7,
+          id: 1,
+        },
+        {
+          name: "Niru",
+          exercises: 7,
+          id: 2,
+        },
+      ],
+    },
   ];
 
   return (
