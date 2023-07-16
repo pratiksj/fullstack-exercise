@@ -15,6 +15,7 @@ const App = () => {
 
   const [selected, setSelected] = useState(0);
   const [vote, setVote] = useState(initialVotes);
+  console.log(vote, "state");
 
   const generateRandom = () => {
     let randomNum = Math.floor(Math.random() * anecdotes.length);
@@ -40,7 +41,7 @@ const App = () => {
       </div>
       <h2>Anecdote with the most vote</h2>
       <div>{anecdotes[maxVoteIndex]}</div>
-      <div>has{vote[maxVoteIndex]}</div>
+      <div>has {vote[maxVoteIndex]} votes</div>
     </div>
   );
 };
