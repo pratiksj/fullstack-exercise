@@ -6,13 +6,18 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault();
-    const newObject = {
-      name: newName,
-    };
-    setPersons([...persons, newObject]);
-    console.log(persons, "state");
 
-    setNewName("");
+    if (persons.some((entry) => entry.name === newName)) {
+      alert(`${newName} is already exist`);
+    } else {
+      const newObject = {
+        name: newName,
+      };
+      setPersons([...persons, newObject]);
+      console.log(persons, "state");
+
+      setNewName("");
+    }
   };
 
   const handleOnChange = (event) => {
