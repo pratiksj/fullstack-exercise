@@ -1,9 +1,10 @@
-const Total = ({ data }) => {
+const Total = (props) => {
+  console.log(props, "from total");
   return (
     <h3>
       Number of exercise{" "}
-      {data.parts.reduce(
-        (accumulator, currentVal) => accumulator + currentVal.exercises,
+      {props.data.reduce(
+        (accumulator, currentVal) => accumulator + currentVal,
         0
       )}
     </h3>

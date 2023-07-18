@@ -1,19 +1,15 @@
-import Header from "./Header";
-import Part from "./Part";
-import Total from "./Total";
+import React from "react";
 
-const Content = ({ data }) => {
-  console.log(data, "from Content ");
+const Content = ({ content }) => {
+  console.log(content, "from the content");
   return (
     <div>
-      <Header course={data.name} />
-
-      {data.parts.map((data) => {
-        return (
-          <Part part={data.name} exercise={data.exercises} key={data.id} />
-        );
-      })}
-      <Total data={data} />
+      {content.map((data, index) => (
+        <p key={index}>
+          {data.part}
+          {data.exercise}
+        </p>
+      ))}
     </div>
   );
 };
