@@ -33,9 +33,9 @@ const App = () => {
     setNewNote(event.target.value);
   };
 
-  // const notesToshow = showAll
-  //   ? notes
-  //   : notes.filter((note) => note.important === true);
+  const notesToshow = showAll
+    ? notes
+    : notes.filter((note) => note.important === true);
 
   return (
     <div>
@@ -46,7 +46,7 @@ const App = () => {
         </button>
       </div>
       <ul>
-        {notes.map((note) => (
+        {notesToshow.map((note) => (
           <li key={note.id}>
             <Note key={note.id} note={note} />
           </li>
