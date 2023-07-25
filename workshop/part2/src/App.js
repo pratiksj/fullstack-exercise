@@ -1,10 +1,21 @@
-import { useState } from "react";
+import axios from "axios";
+import { useState, useEffect } from "react";
 import Note from "./components/Note";
 
-const App = (props) => {
-  const [notes, setNotes] = useState(props.notes);
+const App = () => {
+  const [notes, setNotes] = useState([]);
   const [newNote, setNewNote] = useState("new note..");
   const [showAll, setShowAll] = useState(true);
+
+  useEffect(() => {
+    console.log("effect");
+    axios.get("http://localhost:3001/notes").then((response) => {
+      console.log("promise fulfilled");
+      setNotes(response.data);
+    });
+  }, []);
+  console.log(notes, "array");
+  //console.log("render", no, "notes");
 
   const addNote = (event) => {
     event.preventDefault();
@@ -22,9 +33,9 @@ const App = (props) => {
     setNewNote(event.target.value);
   };
 
-  const notesToshow = showAll
-    ? notes
-    : notes.filter((note) => note.important === true);
+  // const notesToshow = showAll
+  //   ? notes
+  //   : notes.filter((note) => note.important === true);
 
   return (
     <div>
@@ -35,7 +46,7 @@ const App = (props) => {
         </button>
       </div>
       <ul>
-        {notesToshow.map((note) => (
+        {notes.map((note) => (
           <li key={note.id}>
             <Note key={note.id} note={note} />
           </li>
