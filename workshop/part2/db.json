@@ -1,19 +1,31 @@
 {
-    "notes": [
-      {
-        "id": 1,
-        "content": "HTML is easy",
-        "important": true
-      },
-      {
-        "id": 2,
-        "content": "Browser can execute only JavaScript",
-        "important": false
-      },
-      {
-        "id": 3,
-        "content": "GET and POST are the most important methods of HTTP protocol",
-        "important": true
-      }
-    ]
-  }
+  "notes": [
+    {
+      "id": 1,
+      "content": "HTML is easy",
+      "important": true
+    },
+    {
+      "id": 2,
+      "content": "Browser can execute only JavaScript",
+      "important": false
+    },
+    {
+      "id": 3,
+      "content": "GET and POST are the most important methods of HTTP protocol",
+      "important": true
+    },
+    {
+      "content": "pratiksha",
+      "data": "2023-07-25T16:35:55.751Z",
+      "important": false,
+      "id": 4
+    },
+    {
+      "content": "niru kumari magar",
+      "data": "2023-07-25T16:36:02.985Z",
+      "important": true,
+      "id": 5
+    }
+  ]
+}
