@@ -10,7 +10,12 @@ const App = () => {
   useEffect(() => {
     console.log("effect");
 
-    noteServices.getAll().then((response) => setNotes(response));
+    noteServices
+      .getAll()
+      .then((response) => setNotes(response))
+      .catch((error) => {
+        console.log("fail request");
+      });
   }, []);
   console.log(notes, "array");
 
