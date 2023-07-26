@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
 import Note from "./components/Note";
 import noteServices from "./services/notes";
+import Notification from "./components/Notification";
+import "./index.css";
 
 const App = () => {
   const [notes, setNotes] = useState([]);
   const [newNote, setNewNote] = useState("new note..");
   const [showAll, setShowAll] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     console.log("effect");
@@ -27,7 +30,7 @@ const App = () => {
       important: Math.random() < 0.5 ? true : false,
     };
     noteServices.create(noteObject).then((response) => {
-      setNotes(notes.concat(noteObject));
+      setNotes(notes.concat(response));
       setNewNote("");
     });
   };
@@ -49,7 +52,12 @@ const App = () => {
         setNotes(notes.map((n) => (n.id !== id ? n : response.data)));
       })
       .catch((error) => {
-        alert(`the note '${note.content}' was already deleted from server`);
+        setErrorMessage(
+          `the note '${note.content}' was already deleted from server`
+        );
+        setTimeout(() => {
+          setErrorMessage(null);
+        }, 5000);
         setNotes(notes.filter((note) => note.id !== id));
       });
   };
@@ -63,6 +71,7 @@ const App = () => {
   return (
     <div>
       <h1>Notes</h1>
+      <Notification message={errorMessage} />
       <div>
         <button onClick={() => setShowAll(!showAll)}>
           show {showAll ? "important" : "all"}
