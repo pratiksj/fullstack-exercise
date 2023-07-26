@@ -25,7 +25,6 @@ const App = () => {
       content: newNote,
       data: new Date().toISOString(),
       important: Math.random() < 0.5 ? true : false,
-      id: notes.length + 1,
     };
     noteServices.create(noteObject).then((response) => {
       setNotes(notes.concat(noteObject));
@@ -44,8 +43,20 @@ const App = () => {
     //const url = `http://localhost:3001/notes/${id}`;
     const note = notes.find((n) => n.id === id);
     const noteTochange = { ...note, important: !note.important };
-    noteServices.update(id, noteTochange).then((response) => {
-      setNotes(notes.map((n) => (n.id !== id ? n : response.data)));
+    noteServices
+      .update(id, noteTochange)
+      .then((response) => {
+        setNotes(notes.map((n) => (n.id !== id ? n : response.data)));
+      })
+      .catch((error) => {
+        alert(`the note '${note.content}' was already deleted from server`);
+        setNotes(notes.filter((note) => note.id !== id));
+      });
+  };
+  const noteToDelete = (id) => {
+    console.log(id, "delete");
+    noteServices.remove(id).then((response) => {
+      setNotes(notes.filter((note) => note.id !== id));
     });
   };
 
@@ -64,6 +75,7 @@ const App = () => {
               key={note.id}
               note={note}
               toggleImportance={() => toggleImportanceOf(note.id)}
+              noteToDelete={noteToDelete}
             />
           </li>
         ))}

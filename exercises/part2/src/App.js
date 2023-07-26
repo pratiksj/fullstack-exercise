@@ -31,7 +31,6 @@ const App = () => {
       );
       if (confirmNum) {
         personServices.update(findNumber.id, updatedNumber).then((response) => {
-          console.log(response.data, "I am response");
           setPersons(
             persons.map((person) =>
               person.id === findNumber.id ? response.data : person
