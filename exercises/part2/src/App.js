@@ -19,20 +19,37 @@ const App = () => {
   const addPerson = (event) => {
     event.preventDefault();
 
-    if (persons.some((entry) => entry.name === newName)) {
-      return alert(`${newName} is already exist`);
+    if (!newName || !newNumber) {
+      return alert("please fill both the name and the number field ");
     }
+    let findNumber = persons.find((person) => person.name === newName);
+    let updatedNumber = { ...findNumber, number: newNumber };
 
-    const newObject = {
-      name: newName,
-      number: newNumber,
-    };
+    if (findNumber) {
+      let confirmNum = window.confirm(
+        `${findNumber.name} is already added to phonebook,replace the old with new one`
+      );
+      if (confirmNum) {
+        personServices.update(findNumber.id, updatedNumber).then((response) => {
+          console.log(response.data, "I am response");
+          setPersons(
+            persons.map((person) =>
+              person.id === findNumber.id ? response.data : person
+            )
+          );
+        });
+      }
+    } else {
+      const newObject = {
+        name: newName,
+        number: newNumber,
+      };
 
-    personServices.create(newObject).then((response) => {
-      setPersons([...persons, response]);
-      console.log(response, "hellow");
-    });
-
+      personServices.create(newObject).then((response) => {
+        setPersons([...persons, response]);
+        console.log(response, "hellow");
+      });
+    }
     setNewName("");
     setNewNumber("");
   };
@@ -52,14 +69,21 @@ const App = () => {
     person.name.toLowerCase().includes(filter.toLowerCase())
   );
   const deletePerson = (id) => {
-    console.log(id, "hello");
     let findPersonWithId = persons.find((person) => person.id === id);
 
     let confirmResult = window.confirm(`${findPersonWithId.name} delete`);
     if (confirmResult) {
-      personServices.remove(id).then((response) => {
-        setPersons(persons.filter((person) => person.id !== id));
-      });
+      personServices
+        .remove(id)
+        .then((response) => {
+          setPersons(persons.filter((person) => person.id !== id));
+        })
+        .catch((error) => {
+          alert(
+            `the note '${findPersonWithId.content}' was already deleted from server`
+          );
+          setPersons(persons.filter((n) => n.id !== id));
+        });
     }
   };
 
