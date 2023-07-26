@@ -28,9 +28,10 @@ const App = () => {
       number: newNumber,
     };
 
-    personServices
-      .create(newObject)
-      .then((response) => setPersons([...persons, newObject]));
+    personServices.create(newObject).then((response) => {
+      setPersons([...persons, response]);
+      console.log(response, "hellow");
+    });
 
     setNewName("");
     setNewNumber("");
@@ -50,6 +51,18 @@ const App = () => {
   const filterPerson = persons.filter((person) =>
     person.name.toLowerCase().includes(filter.toLowerCase())
   );
+  const deletePerson = (id) => {
+    console.log(id, "hello");
+    let findPersonWithId = persons.find((person) => person.id === id);
+
+    let confirmResult = window.confirm(`${findPersonWithId.name} delete`);
+    if (confirmResult) {
+      personServices.remove(id).then((response) => {
+        setPersons(persons.filter((person) => person.id !== id));
+      });
+    }
+  };
+
   const object = {
     newName,
     newNumber,
@@ -65,7 +78,7 @@ const App = () => {
       <h3> add a new </h3>
       <PersonForm data={object} />
       <h2>Numbers</h2>
-      <Persons filter={filterPerson} />
+      <Persons filter={filterPerson} deletePerson={deletePerson} />
     </div>
   );
 };
