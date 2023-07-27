@@ -3,9 +3,10 @@ import Note from "./components/Note";
 import noteServices from "./services/notes";
 import Notification from "./components/Notification";
 import "./index.css";
+import Footer from "./components/Footer";
 
 const App = () => {
-  const [notes, setNotes] = useState([]);
+  const [notes, setNotes] = useState(null);
   const [newNote, setNewNote] = useState("new note..");
   const [showAll, setShowAll] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
@@ -21,6 +22,9 @@ const App = () => {
       });
   }, []);
   console.log(notes, "array");
+  if (!notes) {
+    return null;
+  }
 
   const addNote = (event) => {
     event.preventDefault();
@@ -93,6 +97,7 @@ const App = () => {
         <input value={newNote} onChange={handleOnChange} />
         <button>save</button>
       </form>
+      <Footer />
     </div>
   );
 };
