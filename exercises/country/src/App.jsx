@@ -5,6 +5,11 @@ const App = () => {
   const [countries, setCountry] = useState([]);
   const [search, setSearch] = useState("");
   const [selectedCountry, setSelectedCountry] = useState(null);
+  const [weatherData, setWeatherData] = useState({
+    temperature: "",
+    wind: "",
+    weatherIcon: "",
+  });
 
   useEffect(() => {
     axios
@@ -22,12 +27,40 @@ const App = () => {
     setSearch(event.target.value);
   };
 
-  const handleShowButton = (country) => {
-    setSelectedCountry(country);
-  };
   const handleHideButton = () => {
     setSelectedCountry(null);
   };
+
+  useEffect(() => {
+    if (selectedCountry) {
+      console.log("now second");
+      getData();
+    }
+  }, [selectedCountry]);
+
+  const getData = () => {
+    axios
+      .get(
+        `https://api.openweathermap.org/data/2.5/weather?q=${
+          selectedCountry.capital[0]
+        }&appid=${import.meta.env.VITE_REACT_APP_WEATHER_API}`
+      )
+
+      .then((response) => {
+        console.log(response, "i am third");
+        setWeatherData({
+          temperature: response.data.main.temp,
+          wind: response.data.wind.speed,
+          weatherIcon: response.data.weather[0].icon,
+        });
+      });
+  };
+
+  const handleShowButton = (country) => {
+    console.log(country, "open");
+    setSelectedCountry(country);
+  };
+  console.log(weatherData, "newdata");
 
   const buttonStyle = {
     marginLeft: "10px",
@@ -61,13 +94,22 @@ const App = () => {
                     )}
                   </p>
                   <p>Area: {country.area}</p>
-                  <p>Languages:</p>
+                  <h2>Languages:</h2>
                   <ul>
                     {Object.values(country.languages).map((each, index) => (
                       <li key={index}>{each}</li>
                     ))}
                   </ul>
                   <div style={{ fontSize: "150px" }}>{country.flag}</div>
+                  <h2>Weather in {country.capital[0]}</h2>
+                  <div> Temperature -{weatherData.temperature}Celcius</div>
+                  <img
+                    style={{ height: "150px", width: "150px" }}
+                    src={`https://openweathermap.org/img/wn/${weatherData.weatherIcon}@2x.png`}
+                    alt="icon-weather"
+                  />
+
+                  <div>wind{weatherData.wind}m/s</div>
                   <button onClick={handleHideButton} style={buttonStyle}>
                     Hide
                   </button>
