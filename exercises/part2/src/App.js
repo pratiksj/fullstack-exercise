@@ -46,7 +46,6 @@ const App = () => {
 
       personServices.create(newObject).then((response) => {
         setPersons([...persons, response]);
-        console.log(response, "hellow");
       });
     }
     setNewName("");
