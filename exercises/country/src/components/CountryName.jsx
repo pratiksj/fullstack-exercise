@@ -50,41 +50,40 @@ const CountryName = ({
   };
 
   return (
-    <div>
+    <>
       {filterCountry.map((country) => (
         <div key={country.cca2}>
-          <div style={{ display: "inline-block" }}>
-            <h1>{country.name.common}</h1>
-            {selectedCountry === country ? (
-              <div>
-                <CountryDetails
-                  country={country}
-                  weatherData={weatherData}
-                  handleHideButton={handleHideButton}
-                />
-                <button onClick={handleHideButton} style={buttonStyle}>
-                  Hide
-                </button>
-              </div>
-            ) : (
-              <button
-                onClick={() => handleShowButton(country)}
-                style={{
-                  backgroundColor: "green",
-                  color: "white",
-                  border: "none",
-                  padding: "5px 10px",
-                  cursor: "pointer",
-                }}
-              >
-                show
+          <h1>{country.name.common}</h1>{" "}
+          {selectedCountry === country ? (
+            <>
+              <CountryDetails
+                country={country}
+                weatherData={weatherData}
+                handleHideButton={handleHideButton}
+              />
+              <button onClick={handleHideButton} style={buttonStyle}>
+                Hide
               </button>
-            )}
-          </div>
+            </>
+          ) : (
+            <button
+              onClick={() => handleShowButton(country)}
+              style={{
+                backgroundColor: "green",
+                color: "white",
+                border: "none",
+                padding: "5px 10px",
+                cursor: "pointer",
+              }}
+            >
+              show
+            </button>
+          )}
         </div>
       ))}
-    </div>
+    </>
   );
 };
 
 export default CountryName;
+//style={{ display: "inline-block" }
