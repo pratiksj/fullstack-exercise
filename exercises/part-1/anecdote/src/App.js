@@ -14,7 +14,17 @@ const App = () => {
   //const initialVotes = new Array(anecdotes.length).fill(0);
 
   const [selected, setSelected] = useState(0);
-  const [vote, setVote] = useState(new Array(anecdotes.length).fill(0));
+  //const [vote, setVote] = useState(new Array(anecdotes.length).fill(0));
+  const [vote, setVote] = useState({
+    0: 0,
+    1: 0,
+    2: 0,
+    3: 0,
+    4: 0,
+    5: 0,
+    6: 0,
+    7: 0,
+  });
   console.log(vote);
 
   const generateRandom = () => {
@@ -24,13 +34,15 @@ const App = () => {
   };
 
   const handleVote = () => {
-    const newVote = [...vote];
+    const newVote = { ...vote };
     newVote[selected] += 1;
     setVote(newVote);
   };
-
-  const maxVoteIndex = vote.indexOf(Math.max(...vote));
-  console.log(maxVoteIndex, "she");
+  console.log(...vote, "she");
+  // const maxVoteIndex = Object.values(vote);
+  // const mostVote = maxVoteIndex.indexOf(Math.max(...vote));
+  //const maxVoteIndex = vote.indexOf(Math.max(...vote));
+  //console.log(maxVoteIndex, "she");
 
   return (
     <div>
@@ -41,8 +53,8 @@ const App = () => {
         <button onClick={generateRandom}>next anecdote</button>
       </div>
       <h2>Anecdote with the most vote</h2>
-      <div>{anecdotes[maxVoteIndex]}</div>
-      <div>has {vote[maxVoteIndex]} votes</div>
+      {/* <div>{anecdotes[mostVote]}</div>
+      <div>has {vote[mostVote]} votes</div> */}
     </div>
   );
 };
