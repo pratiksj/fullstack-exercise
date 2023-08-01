@@ -22,6 +22,8 @@ const CountryName = ({
     }
   }, [selectedCountry]);
 
+  console.log(import.meta.env.VITE_REACT_APP_WEATHER_API, "iam the key");
+
   const getData = () => {
     axios
       .get(
