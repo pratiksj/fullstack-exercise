@@ -22,9 +22,8 @@ const App = () => {
       });
   }, []);
   console.log(notes, "array");
-  if (!notes) {
-    return null;
-  }
+
+
 
   const addNote = (event) => {
     event.preventDefault();
@@ -82,7 +81,7 @@ const App = () => {
         </button>
       </div>
       <ul>
-        {notesToshow.map((note) => (
+        {!notes ? null : notesToshow.map((note) => (
           <li key={note.id}>
             <Note
               key={note.id}
