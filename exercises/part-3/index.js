@@ -1,5 +1,6 @@
 const express = require("express");
 const morgan = require("morgan");
+const cors = require('cors')
 const app = express();
 const customFormat = (tokens, req, res) => {
   let logData = [
@@ -16,6 +17,8 @@ const customFormat = (tokens, req, res) => {
   return logData.join(' ')
 }
 
+app.use(cors())
+app.use(express.static('build'))
 
 app.use(morgan(customFormat))
 
@@ -69,7 +72,7 @@ app.post("/api/persons", (request, response) => {
   const person = {
     name: body.name,
     number: body.number,
-    id: Math.floor(Math.random() * 200),
+    id: Math.floor(Math.random() * 1000),
   };
   persons = persons.concat(person);
   response.json(person);
@@ -87,15 +90,26 @@ app.get("/api/persons/:id", (request, response) => {
 
 app.delete("/api/persons/:id", (request, response) => {
   const id = Number(request.params.id);
-  console.log(typeof id, "they");
   persons = persons.filter((person) => person.id !== id);
 
   response.status(204).end();
 });
 
+app.put('/api/persons/:id', (request, response) => {
+  const id = Number(request.params.id)
+  const personToUpdate = persons.find((person) => person.id === id);
+  if (persons.some((person) => person.name === personToUpdate.name)) {
+    personToUpdate.number = request.body.number
+    return response.json(personToUpdate)
+  }
 
 
-const PORT = 3004;
+
+})
+
+
+
+const PORT = process.env.PORT || 3004;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

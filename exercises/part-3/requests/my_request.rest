@@ -4,7 +4,7 @@ GET http://localhost:3004/api/persons
 GET http://localhost:3004/info
 
 ###
-DELETE http://localhost:3004/api/persons/1
+DELETE http://localhost:3004/api/persons/80
 
 ###
 POST http://localhost:3004/api/persons
@@ -13,6 +13,17 @@ Content-Type: application/json
 {
      "name":"bunny",
      "number":"098766555"
+    
+
+} 
+
+###
+PUT  http://localhost:3004/api/persons/324
+Content-Type: application/json
+
+{
+     "name":"bunny",
+     "number":"123"
     
 
 } 
