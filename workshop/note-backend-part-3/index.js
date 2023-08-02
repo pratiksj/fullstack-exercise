@@ -18,7 +18,7 @@ var removeDuplicates = function (nums) {
   }
 };
 
-let nums = [0, 0, 1, 1];
+let nums = [0, 2, 1, 1];
 debugger;
 removeDuplicates(nums);
 console.log(nums, "she"); // Output: [0, 1, 2, 3, 4]

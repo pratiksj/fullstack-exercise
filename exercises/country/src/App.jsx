@@ -41,12 +41,14 @@ const App = () => {
       ) : filterCountry.length > 10 ? (
         <div>To many matches</div>
       ) : (
-        <CountryName
-          filterCountry={filterCountry}
-          selectedCountry={selectedCountry}
-          handleShowButton={handleShowButton}
-          handleHideButton={handleHideButton}
-        />
+        <div>
+          <CountryName
+            filterCountry={filterCountry}
+            selectedCountry={selectedCountry}
+            handleShowButton={handleShowButton}
+            handleHideButton={handleHideButton}
+          />
+        </div>
       )}
     </div>
   );
