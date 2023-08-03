@@ -1,6 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const cors = require('cors')
+const Person = require('./models/person')
 const app = express();
 const customFormat = (tokens, req, res) => {
   let logData = [
@@ -48,7 +49,11 @@ let persons = [
 ];
 
 app.get("/api/persons", (request, response) => {
-  response.json(persons);
+
+  Person.find({}).then(result => {
+    response.json(result);
+
+  })
 });
 
 app.get("/info", (request, response) => {
