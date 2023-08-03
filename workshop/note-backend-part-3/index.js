@@ -1,6 +1,23 @@
 const express = require("express");
 const cors = require('cors')
+require('dotenv').config()
+const Note = require('./models/note')
 const app = express();
+
+// const mongoose = require('mongoose');
+
+// const url = process.env.MONGODB_URL
+
+// console.log('connecting to the url')
+// mongoose.set('strictQuery', false)
+// mongoose.connect(url)
+
+// const noteSchema = new mongoose.Schema({
+//   content: String,
+//   important: Boolean,
+// })
+
+// const Note = mongoose.model('Note', noteSchema)
 
 app.use(cors())
 
@@ -33,17 +50,24 @@ app.get("/", (req, res) => {
 });
 
 app.get("/api/notes", (req, res) => {
-  res.json(notes);
+  Note.find({}).then(notes => {
+    res.json(notes)
+  })
+
 });
 
 app.get("/api/notes/:id", (req, res) => {
-  const id = Number(req.params.id);
-  const note = notes.find((note) => note.id === id);
-  if (note) {
-    res.json(note);
-  } else {
-    res.status(404).end();
-  }
+  Note.findById(req.params.id).then((result) => {
+    if (result) {
+      res.json(result)
+    } else {
+      res.status(404).send(`There are no notes at${req.params.id}`)
+    }
+  }).catch((error) => {
+    res.status(404).send({ error: 'malformatted id' })
+  })
+
+
 });
 
 app.delete("/api/notes/:id", (request, response) => {
@@ -56,10 +80,17 @@ app.delete("/api/notes/:id", (request, response) => {
 });
 
 app.post("/api/notes", (request, response) => {
-  const note = request.body;
-  note.id = notes.length + 1;
-  notes.push(note);
-  response.status(201).json(note);
+  const body = request.body;
+  const note = new Note({
+    content: body.content,
+    important: body.important || false,
+  })
+  note.save().then(savedNote => {
+    response.json(savedNote)
+  })
+  // note.id = notes.length + 1;
+  // notes.push(note);
+  // response.status(201).json(note);
 });
 
 const PORT = process.env.PORT || 3001;
