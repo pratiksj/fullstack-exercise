@@ -19,11 +19,22 @@ const app = express();
 
 // const Note = mongoose.model('Note', noteSchema)
 
-app.use(cors())
+//app.use(cors())
+app.use(express.static('build'))
 
 app.use(express.json());
 
-app.use(express.static('build'))
+
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
+
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' })
+  }
+
+  next(error)
+}
+
 
 
 
@@ -56,7 +67,7 @@ app.get("/api/notes", (req, res) => {
 
 });
 
-app.get("/api/notes/:id", (req, res) => {
+app.get("/api/notes/:id", (req, res, next) => {
   Note.findById(req.params.id).then((result) => {
     if (result) {
       res.json(result)
@@ -64,7 +75,7 @@ app.get("/api/notes/:id", (req, res) => {
       res.status(404).send(`There are no notes at${req.params.id}`)
     }
   }).catch((error) => {
-    res.status(404).send({ error: 'malformatted id' })
+    next(error)
   })
 
 
@@ -92,6 +103,14 @@ app.post("/api/notes", (request, response) => {
   // notes.push(note);
   // response.status(201).json(note);
 });
+
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
+
+app.use(unknownEndpoint)
+
+app.use(errorHandler)
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
