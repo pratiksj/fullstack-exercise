@@ -1,6 +1,9 @@
 GET http://localhost:3004/api/persons
 
 ###
+GET http://localhost:3004/api/persons/64cf28cf773d212572093239
+
+###
 GET http://localhost:3004/info
 
 ###
@@ -11,7 +14,7 @@ POST http://localhost:3004/api/persons
 Content-Type: application/json
 
 {
-     "name":"bunny",
+     "name":"bu",
      "number":"098766555"
     
 
@@ -22,7 +25,7 @@ PUT  http://localhost:3004/api/persons/64cc6c450db43206c8fe55aa
 Content-Type: application/json
 
 {
-     "name":"this",
+     "name":"th",
      "number":"1000"
     
 
