@@ -3,6 +3,12 @@ const morgan = require("morgan");
 const cors = require('cors')
 const Person = require('./models/person')
 const app = express();
+
+app.use(express.static('build'))
+app.use(express.json());
+app.use(cors())
+
+
 const customFormat = (tokens, req, res) => {
   let logData = [
     tokens.method(req, res),
@@ -17,36 +23,12 @@ const customFormat = (tokens, req, res) => {
   }
   return logData.join(' ')
 }
-
-app.use(cors())
-app.use(express.static('build'))
-
 app.use(morgan(customFormat))
 
-app.use(express.json());
 
-let persons = [
-  {
-    id: 1,
-    name: "Arto Hellas",
-    number: "040-123456",
-  },
-  {
-    id: 2,
-    name: "Ada Lovelace",
-    number: "39-44-5323523",
-  },
-  {
-    id: 3,
-    name: "Dan Abramov",
-    number: "12-43-234345",
-  },
-  {
-    id: 4,
-    name: "Mary Poppendieck",
-    number: "39-23-6423122",
-  },
-];
+
+
+
 
 app.get("/api/persons", (request, response) => {
 
@@ -75,6 +57,18 @@ app.post("/api/persons", (request, response) => {
 
 });
 
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
+
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' })
+  }
+
+  next(error)
+}
+
+app.use(errorHandler)
+
 app.get("/api/persons/:id", (request, response) => {
   const id = Number(request.params.id);
   const person = persons.find((person) => person.id === id);
@@ -85,24 +79,32 @@ app.get("/api/persons/:id", (request, response) => {
   }
 });
 
-app.delete("/api/persons/:id", (request, response) => {
-  const id = Number(request.params.id);
-  persons = persons.filter((person) => person.id !== id);
+app.delete("/api/persons/:id", (request, response, next) => {
+  // const id = Number(request.params.id);
+  // persons = persons.filter((person) => person.id !== id);
 
-  response.status(204).end();
+  // response.status(204).end();
+  Person.findByIdAndRemove(request.params.id).then(result => {
+    response.status(204).end()
+  }).catch(error => next(error))
 });
 
-app.put('/api/persons/:id', (request, response) => {
-  const id = Number(request.params.id)
-  const personToUpdate = persons.find((person) => person.id === id);
-  if (persons.some((person) => person.name === personToUpdate.name)) {
-    personToUpdate.number = request.body.number
-    return response.json(personToUpdate)
-  }
+app.put('/api/persons/:id', (request, response, next) => {
+
+  Person.findByIdAndUpdate(request.params.id, { number: request.body.number }, { new: true }).then(updatedPerson => {
+    response.json(updatedPerson)
+  })
+    .catch(error => next(error))
 
 
 
 })
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
+
+
+app.use(unknownEndpoint)
 
 
 

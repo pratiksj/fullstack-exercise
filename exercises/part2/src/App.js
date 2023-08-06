@@ -5,7 +5,7 @@ import Persons from "./components/Persons";
 import personServices from "./services/persons";
 
 const App = () => {
-  const [persons, setPersons] = useState([]);
+  const [persons, setPersons] = useState(null);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filter, setFilter] = useState("");
@@ -53,19 +53,23 @@ const App = () => {
   };
 
   const handleOnChange = (event) => {
-    //let newname = event.target.value;
+
     setNewName(event.target.value);
   };
+
+
   const handleOnChangeNum = (event) => {
     setNewNumber(event.target.value);
   };
-  const handleOnFilter = (event) => {
-    setFilter(event.target.value);
+  const handleOnFilter = (e) => {
+    setFilter(e.target.value);
   };
 
-  const filterPerson = persons.filter((person) =>
-    person.name.toLowerCase().includes(filter.toLowerCase())
-  );
+  const filterPerson = !persons ? null : persons.filter((person) => {
+
+    return person.name.toLowerCase().includes(filter.toLowerCase())
+  });
+
   const deletePerson = (id) => {
     let findPersonWithId = persons.find((person) => person.id === id);
 
@@ -97,6 +101,7 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <Filter value={filter} onChange={handleOnFilter} />
+      {/* <Filter handleOnFilter={handleOnFilter} /> */}
       <h3> add a new </h3>
       <PersonForm data={object} />
       <h2>Numbers</h2>

@@ -18,12 +18,12 @@ Content-Type: application/json
 } 
 
 ###
-PUT  http://localhost:3004/api/persons/324
+PUT  http://localhost:3004/api/persons/64cc6c450db43206c8fe55aa
 Content-Type: application/json
 
 {
-     "name":"bunny",
-     "number":"123"
+     "name":"this",
+     "number":"1000"
     
 
 } 
