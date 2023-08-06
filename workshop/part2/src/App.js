@@ -35,6 +35,11 @@ const App = () => {
     noteServices.create(noteObject).then((response) => {
       setNotes(notes.concat(response));
       setNewNote("");
+    }).catch((error) => {
+      setErrorMessage(error.response.data.error)
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 3000)
     });
   };
   const handleOnChange = (event) => {
@@ -46,7 +51,7 @@ const App = () => {
     : notes.filter((note) => note.important === true);
 
   const toggleImportanceOf = (id) => {
-    //const url = `http://localhost:3001/notes/${id}`;
+
     const note = notes.find((n) => n.id === id);
     const noteTochange = { ...note, important: !note.important };
     noteServices

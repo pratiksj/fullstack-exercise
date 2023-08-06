@@ -4,22 +4,7 @@ require('dotenv').config()
 const Note = require('./models/note')
 const app = express();
 
-// const mongoose = require('mongoose');
 
-// const url = process.env.MONGODB_URL
-
-// console.log('connecting to the url')
-// mongoose.set('strictQuery', false)
-// mongoose.connect(url)
-
-// const noteSchema = new mongoose.Schema({
-//   content: String,
-//   important: Boolean,
-// })
-
-// const Note = mongoose.model('Note', noteSchema)
-
-//app.use(cors())
 app.use(express.static('build'))
 
 app.use(express.json());
@@ -31,6 +16,9 @@ const errorHandler = (error, request, response, next) => {
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
   }
+  else if (error.name === "ValidationError") {
+    return response.status(400).json({ error: error.message })
+  }
 
   next(error)
 }
@@ -38,23 +26,7 @@ const errorHandler = (error, request, response, next) => {
 
 
 
-let notes = [
-  {
-    id: 1,
-    content: "HTML is easy",
-    important: true,
-  },
-  {
-    id: 2,
-    content: "Browser can execute only JavaScript",
-    important: false,
-  },
-  {
-    id: 3,
-    content: "GET and POST are the most important methods of HTTP protocol",
-    important: true,
-  },
-];
+
 
 app.get("/", (req, res) => {
   res.send("<h1>hellow world</h1>");
@@ -81,16 +53,15 @@ app.get("/api/notes/:id", (req, res, next) => {
 
 });
 
-app.delete("/api/notes/:id", (request, response) => {
-  const id = Number(request.params.id);
+app.delete("/api/notes/:id", (request, response, next) => {
 
-  notes = notes.filter((note) => note.id !== id);
-  console.log(notes, "from code");
+  Note.findByIdAndDelete(request.params.id).then((result) => {
+    response.status(204).end()
 
-  response.status(204).end();
+  }).catch(error => next(error))
 });
 
-app.post("/api/notes", (request, response) => {
+app.post("/api/notes", (request, response, next) => {
   const body = request.body;
   const note = new Note({
     content: body.content,
@@ -99,9 +70,8 @@ app.post("/api/notes", (request, response) => {
   note.save().then(savedNote => {
     response.json(savedNote)
   })
-  // note.id = notes.length + 1;
-  // notes.push(note);
-  // response.status(201).json(note);
+    .catch(error => next(error))
+
 });
 
 const unknownEndpoint = (request, response) => {

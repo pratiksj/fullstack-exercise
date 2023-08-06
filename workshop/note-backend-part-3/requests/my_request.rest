@@ -1,13 +1,13 @@
-GET http://localhost:3003/api/notes
+GET http://localhost:3001/api/notes
 
 ###
-DELETE http://localhost:3003/api/notes/1
+DELETE http://localhost:3001/api/notes/64cb47e06f92df2a50fa70db
 
 ###
-POST http://localhost:3003/api/notes
+POST http://localhost:3001/api/notes
 Content-type: application/json
 
 {
- "content":"sample",
+ "content":"sam",
  "important":false   
 }
