@@ -24,5 +24,5 @@ const noteSchema = new mongoose.Schema({
     important: Boolean,
 })
 
-//const Note = mongoose.model('Note', noteSchema)
+
 module.exports = mongoose.model('Note', noteSchema)

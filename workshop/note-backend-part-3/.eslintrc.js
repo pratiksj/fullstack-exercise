@@ -19,9 +19,10 @@ module.exports = {
             'error', { 'before': true, 'after': true }
         ],
         'no-console': 0,
+        'extends': "prettier", /// yo line le k garyo  k garyo?/
         'indent': [
             'error',
-            4
+            2
         ],
         'linebreak-style': [
             'error',
