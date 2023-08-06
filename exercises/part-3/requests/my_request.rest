@@ -21,12 +21,12 @@ Content-Type: application/json
 } 
 
 ###
-PUT  http://localhost:3004/api/persons/64cc6c450db43206c8fe55aa
+PUT  http://localhost:3004/api/persons/64cf28cf773d212572093239
 Content-Type: application/json
 
 {
-     "name":"th",
-     "number":"1000"
+     "name":"sugam",
+     "number":"0"
     
 
 } 

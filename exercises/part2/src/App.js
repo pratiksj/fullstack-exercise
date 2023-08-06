@@ -3,12 +3,14 @@ import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
 import personServices from "./services/persons";
+import { Notification } from "./components/Notification";
 
 const App = () => {
   const [persons, setPersons] = useState(null);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filter, setFilter] = useState("");
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     personServices.getAll().then((response) => {
@@ -38,16 +40,22 @@ const App = () => {
           );
         });
       }
-    } else {
-      const newObject = {
-        name: newName,
-        number: newNumber,
-      };
-
-      personServices.create(newObject).then((response) => {
-        setPersons([...persons, response]);
-      });
     }
+    const newObject = {
+      name: newName,
+      number: newNumber,
+    };
+
+    personServices.create(newObject).then((response) => {
+      setPersons([...persons, response]);
+    }).catch((error) => {
+      console.log(error, 'iam catch block')
+      setErrorMessage(error.response.data.error)
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 3000)
+    })
+
     setNewName("");
     setNewNumber("");
   };
@@ -100,10 +108,12 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={errorMessage} />
       <Filter value={filter} onChange={handleOnFilter} />
-      {/* <Filter handleOnFilter={handleOnFilter} /> */}
+
       <h3> add a new </h3>
       <PersonForm data={object} />
+
       <h2>Numbers</h2>
       <Persons filter={filterPerson} deletePerson={deletePerson} />
     </div>
