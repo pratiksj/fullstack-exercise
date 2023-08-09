@@ -1,0 +1,12 @@
+GET http://localhost:3002/api/blogs
+
+###
+POST http://localhost:3002/api/blogs
+Content-type: application/json
+
+{
+ "title":"landSlide",
+ "author":"sam" ,
+ "url": "www.kathmandupost.com",
+ "likes": 2
+}
