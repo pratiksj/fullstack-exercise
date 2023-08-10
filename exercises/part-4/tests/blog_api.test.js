@@ -123,7 +123,7 @@ describe('testing api of blog application', () => {
     test('deleting single blog', async () => {
         const response = await api.get('/api/blogs');
         let id = response.body[0].id
-        console.log(id, 'hey')
+        //console.log(id, 'hey')
 
         await api.delete(`/api/blogs/${id}`).expect(204)
 
@@ -131,6 +131,26 @@ describe('testing api of blog application', () => {
 
     })
 
+
+
+})
+
+describe('testing for put api', () => {
+    test('updating likes of the blog', async () => {
+        const response = await api.get('/api/blogs');
+        console.log(response.body, 'put api')
+        const updatedBlog = {
+            likes: 20,
+        }
+
+        const blogToUpdate = await api.put(`/api/blogs/${response.body[0].id}`).send(updatedBlog)
+        const changedBlog = await api.get('/api/blogs');
+        //console.log(changedBlog.body[0], 'lahalla')
+        expect(changedBlog.body[0].likes).toBe(21);
+
+
+
+    })
 })
 
 afterAll(async () => {

@@ -1,4 +1,5 @@
 const blogRouter = require('express').Router()
+const { response } = require('../app')
 const Blog = require('../models/blog')
 
 
@@ -42,12 +43,23 @@ blogRouter.delete('/:id', async (request, response, next) => {
     } catch (exception) {
         next(exception)
     }
+})
 
-    // Blog.findByIdAndDelete(request.params.id).then(() => {
-    //     response.status(204).end()
-    // }).catch((error) => {
-    //     response("this is error")
-    // })
+blogRouter.put('/:id', async (request, response, next) => {
+    try {
+        const { title, author, url, likes } = request.body
+        const body = {
+            title,
+            author,
+            url,
+            likes: likes + 1
+        }
+        const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, body, { new: true })
+        response.json(updatedBlog)
+    } catch (exception) {
+        next(exception)
+    }
+
 
 
 

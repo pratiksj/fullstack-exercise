@@ -17,3 +17,14 @@ Content-type: application/json
 DELETE  http://localhost:3002/api/blogs/64d4b9c9121608415beea9dd
 
 
+###
+PUT  http://localhost:3002/api/blogs/64d30de9e64b43122d73b3c6
+Content-type: application/json
+
+{
+"title": "landSlide",
+"author": "sam",
+"url": "www.kathmandupost.com",
+"likes": 7
+ }
+
