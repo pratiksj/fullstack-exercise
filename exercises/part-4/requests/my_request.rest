@@ -5,8 +5,10 @@ POST http://localhost:3002/api/blogs
 Content-type: application/json
 
 {
- "title":"landSlide",
+ "title":"jananpur",
  "author":"sam" ,
  "url": "www.kathmandupost.com",
- "likes": 2
+ "likes":41
+ 
+
 }

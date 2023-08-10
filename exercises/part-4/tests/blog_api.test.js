@@ -48,7 +48,7 @@ describe('testing api of blog application', () => {
 
     })
 
-    test.only('a valid blog can be added', async () => {
+    test('a valid blog can be added', async () => {
         const newBlog = {
             title: 'async/await simplifies making async calls',
             author: 'Neha',
@@ -69,19 +69,75 @@ describe('testing api of blog application', () => {
 
     })
 
+    test('add 0 to the likes property incase of missing ', async () => {
+        const newBlog = {
+            title: 'silicon valley',
+            author: 'Neha',
+            url: 'oninekhbarrr',
+
+        }
+
+        const response = await api
+            .post('/api/blogs')
+            .send(newBlog)
+            .expect(201)
+
+
+
+        expect(response.body.likes).toBe(0)
+    })
+
+
+    test('missing url getting 400 bad request as response', async () => {
+        const newBlog = {
+            title: 'silicon valley',
+            author: 'Neha',
+            likes: 13
+
+        }
+
+        await api
+            .post('/api/blogs')
+            .send(newBlog)
+            .expect(400)
+
+
+
+
+    })
+
+    test('missing titile getting 400 bad request as response', async () => {
+        const newBlog = {
+            url: 'www.kathmandupost',
+            author: 'Neha',
+            likes: 13
+
+        }
+
+        await api
+            .post('/api/blogs')
+            .send(newBlog)
+            .expect(400)
+
+
+
+
+    })
+
+
+
 
 })
-
-
-
-
-
-
-
-
-
 
 
 afterAll(async () => {
     await mongoose.connection.close()
 })
+
+
+
+
+
+
+
+
