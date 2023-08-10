@@ -118,26 +118,22 @@ describe('testing api of blog application', () => {
             .post('/api/blogs')
             .send(newBlog)
             .expect(400)
+    })
 
+    test('deleting single blog', async () => {
+        const response = await api.get('/api/blogs');
+        let id = response.body[0].id
+        console.log(id, 'hey')
+
+        await api.delete(`/api/blogs/${id}`).expect(204)
 
 
 
     })
 
-
-
-
 })
-
 
 afterAll(async () => {
     await mongoose.connection.close()
 })
-
-
-
-
-
-
-
 
