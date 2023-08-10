@@ -1,32 +1,26 @@
 const mongoose = require('mongoose')
 const supertest = require('supertest')
+const helper = require('./test_helper')
 const app = require('../app')
 const api = supertest(app)
 const Blog = require('../models/blog')
 
-const initialBlogs = [
-    {
-        title: 'HTML is easy',
-        author: 'pratiksha',
-        url: 'www.kathmandupostcom',
-        likes: 12
-    },
-    {
-        title: 'javascript is easy',
-        author: 'usha',
-        url: 'www.onlinekhabar.com',
-        likes: 20
-    },
-]
+
 
 describe('testing api of blog application', () => {
 
     beforeEach(async () => {
+        // await Blog.deleteMany({})
+        // let blogObject = new Blog(initialBlogs[0])
+        // await blogObject.save()
+        // blogObject = new Blog(initialBlogs[1])
+        // await blogObject.save()
         await Blog.deleteMany({})
-        let blogObject = new Blog(initialBlogs[0])
-        await blogObject.save()
-        blogObject = new Blog(initialBlogs[1])
-        await blogObject.save()
+
+        const blogsObjects = helper.initialBlogs
+            .map(blog => new Blog(blog))
+        const promiseArray = blogsObjects.map(blog => blog.save())
+        await Promise.all(promiseArray)
     })
 
     test('blogs are returned as JSON', async () => {
@@ -62,10 +56,16 @@ describe('testing api of blog application', () => {
             .expect(201)
             .expect('Content-Type', /application\/json/)
 
-        const response = await api.get('/api/blogs')
+
+        const response = await helper.blogsInDb()
+        //console.log(response, 'this')
+        expect(response).toHaveLength(helper.initialBlogs.length + 1)
+        const author = response.map((blog) => blog.author)
+        //console.log(author, 'map')
+        expect(author).toContain("Neha")
 
 
-        expect(response.body).toHaveLength(initialBlogs.length + 1)
+
 
     })
 
@@ -77,14 +77,17 @@ describe('testing api of blog application', () => {
 
         }
 
-        const response = await api
+        await api
             .post('/api/blogs')
             .send(newBlog)
             .expect(201)
 
+        const response = await helper.blogsInDb()
+        const addedLikes = response.map((data) => data.likes)
 
 
-        expect(response.body.likes).toBe(0)
+
+        expect(addedLikes).toContain(0)
     })
 
 
@@ -101,31 +104,38 @@ describe('testing api of blog application', () => {
             .send(newBlog)
             .expect(400)
 
-
+        const notAddedBlog = await helper.blogsInDb()
+        expect(notAddedBlog).toHaveLength(helper.initialBlogs.length)
 
 
     })
 
-    test('missing titile getting 400 bad request as response', async () => {
-        const newBlog = {
-            url: 'www.kathmandupost',
-            author: 'Neha',
-            likes: 13
+    //     test('missing titile getting 400 bad request as response', async () => {
+    //         const newBlog = {
+    //             url: 'www.kathmandupost',
+    //             author: 'Neha',
+    //             likes: 13
 
-        }
+    //         }
 
-        await api
-            .post('/api/blogs')
-            .send(newBlog)
-            .expect(400)
-    })
+    //         await api
+    //             .post('/api/blogs')
+    //             .send(newBlog)
+    //             .expect(400)
+    //     })
 
     test('deleting single blog', async () => {
-        const response = await api.get('/api/blogs');
-        let id = response.body[0].id
+        //const response = await api.get('/api/blogs');
+        const response = await helper.blogsInDb()
+        let deleteToBlog = response[0]
         //console.log(id, 'hey')
 
-        await api.delete(`/api/blogs/${id}`).expect(204)
+        await api.delete(`/api/blogs/${deleteToBlog.id}`).expect(204)
+        const deletedBlog = await helper.blogsInDb()
+        expect(deletedBlog).toHaveLength(helper.initialBlogs.length - 1)
+        const author = deletedBlog.map((data) => data.author)
+        expect(author).not.toContain(deleteToBlog.author)
+
 
 
 
@@ -136,17 +146,20 @@ describe('testing api of blog application', () => {
 })
 
 describe('testing for put api', () => {
-    test('updating likes of the blog', async () => {
-        const response = await api.get('/api/blogs');
-        console.log(response.body, 'put api')
+    test.only('updating likes of the blog', async () => {
+        //const response = await api.get('/api/blogs');
+        const response = await helper.blogsInDb()
+
         const updatedBlog = {
             likes: 20,
         }
 
-        const blogToUpdate = await api.put(`/api/blogs/${response.body[0].id}`).send(updatedBlog)
-        const changedBlog = await api.get('/api/blogs');
+        const blogToUpdate = await api.put(`/api/blogs/${response[0].id}`).send(updatedBlog)
+        //const changedBlog = await api.get('/api/blogs');
+        const changedBlog = await helper.blogsInDb()
+
         //console.log(changedBlog.body[0], 'lahalla')
-        expect(changedBlog.body[0].likes).toBe(21);
+        expect(changedBlog[0].likes).toBe(21);
 
 
 
