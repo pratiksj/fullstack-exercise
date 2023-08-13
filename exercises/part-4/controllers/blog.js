@@ -3,6 +3,7 @@ const { response } = require('../app')
 const Blog = require('../models/blog')
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')
+const { userExtrator, tokenExtrator } = require('../utils/middleware')
 require('dotenv').config()
 
 
@@ -15,17 +16,13 @@ blogRouter.get('/', async (request, response) => {
     response.json(blog)
 })
 
-blogRouter.post('/', async (request, response, next) => {
+blogRouter.post('/', userExtrator, async (request, response, next) => {
 
     const body = request.body
-    //console.log(request, 'checking for token')
-    const decodedToken = jwt.verify(request.token, process.env.SECRET)
-    if (!decodedToken.id) {
-        return response.status(401).json({ error: 'token invalid' })
-    }
-    //console.log(decodedToken, 'i am token')
-    //const user = await User.findById(body.userId)
-    const user = await User.findById(decodedToken.id)
+
+    const getUser = request.user
+    const user = await User.findById(getUser.id)
+    console.log(user, 'user')
     if (!body.likes) {
         body.likes = 0
     }
@@ -42,26 +39,24 @@ blogRouter.post('/', async (request, response, next) => {
 
 
     const savedBlog = await blog.save()
+    console.log('saved', savedBlog)
     user.blogs = user.blogs.concat(savedBlog._id)
     await user.save()
     response.status(201).json(savedBlog)
 })
 
-blogRouter.delete('/:id', async (request, response, next) => {
+blogRouter.delete('/:id', userExtrator, async (request, response, next) => {
 
     try {
-        const decodedToken = jwt.verify(request.token, process.env.SECRET)
-        if (!decodedToken.id) {
-            return response.status(401).json({ error: 'token invalid' })
-        }
-        const user = await User.findById(decodedToken.id)
+
+        const user = request.user
         console.log(user, 'delete')
         const blogId = await Blog.findById(request.params.id)
         if (!blogId) {
             return response.status(404).json({ message: 'this id does not exist' })
         }
         console.log(blogId, 'blogDelete')
-        if (user._id.toString() === blogId.user.toString()) {
+        if (user.id.toString() === blogId.user.toString()) {
             await Blog.findByIdAndRemove(request.params.id)
             response.status(204).json({ message: 'Deleted sucessfully' })
         } else {
