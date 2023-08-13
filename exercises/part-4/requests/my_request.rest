@@ -41,3 +41,14 @@ Content-type: application/json
 
 ###
  GET http://localhost:3002/api/users
+
+
+###
+POST http://localhost:3002/api/login
+Content-type: application/json
+
+{
+ "username":"usha",
+ "password":"123"
+ 
+ }
