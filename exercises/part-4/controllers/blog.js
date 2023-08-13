@@ -18,12 +18,12 @@ blogRouter.get('/', async (request, response) => {
 blogRouter.post('/', async (request, response, next) => {
 
     const body = request.body
-    console.log(request, 'checking for token')
+    //console.log(request, 'checking for token')
     const decodedToken = jwt.verify(request.token, process.env.SECRET)
     if (!decodedToken.id) {
         return response.status(401).json({ error: 'token invalid' })
     }
-    console.log(decodedToken, 'i am token')
+    //console.log(decodedToken, 'i am token')
     //const user = await User.findById(body.userId)
     const user = await User.findById(decodedToken.id)
     if (!body.likes) {
@@ -50,8 +50,25 @@ blogRouter.post('/', async (request, response, next) => {
 blogRouter.delete('/:id', async (request, response, next) => {
 
     try {
-        await Blog.findByIdAndRemove(request.params.id)
-        response.status(204).end()
+        const decodedToken = jwt.verify(request.token, process.env.SECRET)
+        if (!decodedToken.id) {
+            return response.status(401).json({ error: 'token invalid' })
+        }
+        const user = await User.findById(decodedToken.id)
+        console.log(user, 'delete')
+        const blogId = await Blog.findById(request.params.id)
+        if (!blogId) {
+            return response.status(404).json({ message: 'this id does not exist' })
+        }
+        console.log(blogId, 'blogDelete')
+        if (user._id.toString() === blogId.user.toString()) {
+            await Blog.findByIdAndRemove(request.params.id)
+            response.status(204).json({ message: 'Deleted sucessfully' })
+        } else {
+            response.status(401).json({ message: " you don't have permission to delete it" })
+        }
+
+
     } catch (exception) {
         next(exception)
     }
