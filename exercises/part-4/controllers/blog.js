@@ -6,14 +6,6 @@ const jwt = require('jsonwebtoken')
 require('dotenv').config()
 
 
-const getTokenFrom = request => {
-    const authorization = request.get('authorization')
-    console.log(authorization, 'from getTokenfrom')
-    if (authorization && authorization.startsWith("Bearer ")) {
-        return authorization.replace('Bearer ', '')
-    }
-    return null
-}
 
 
 
@@ -23,11 +15,11 @@ blogRouter.get('/', async (request, response) => {
     response.json(blog)
 })
 
-blogRouter.post('/', async (request, response) => {
-    //const { title, author, url, likes } = request.body
+blogRouter.post('/', async (request, response, next) => {
+
     const body = request.body
     console.log(request, 'checking for token')
-    const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET)
+    const decodedToken = jwt.verify(request.token, process.env.SECRET)
     if (!decodedToken.id) {
         return response.status(401).json({ error: 'token invalid' })
     }

@@ -3,7 +3,7 @@ GET http://localhost:3002/api/blogs
 ###
 POST http://localhost:3002/api/blogs
 Content-type: application/json
-Authorization: Bearer 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzaGEiLCJpZCI6IjY0ZDg2OGRkYzBmYjFmZjc2NWY4NWJhNiIsImlhdCI6MTY5MTkxNTYyM30.0nPxjBDbtYjCxiasPPrpJgKIJH7mUdVSZ9QPNitngz0
 
 {
  "title":"manipur",
