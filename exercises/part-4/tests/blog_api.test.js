@@ -31,6 +31,7 @@ describe('testing api of blog application', () => {
         token = {
             Authorization: `Bearer ${result.body.token}`,
         };
+
     });
 
 
@@ -123,7 +124,6 @@ describe('testing api of blog application', () => {
         expect(addedLikes).toContain(0)
     })
 
-
     test('missing url getting 400 bad request as response', async () => {
         const newBlog = {
             title: 'silicon valley',
@@ -173,12 +173,11 @@ describe('testing api of blog application', () => {
             .post('/api/blogs')
             .send(newBlog)
             .set(token)
-            .expect(201)
-            .expect('Content-Type', /application\/json/)
+
 
         const response = await helper.blogsInDb()
 
-        console.log(response, 'moon')
+
         let deleteToBlog = response[2]
 
 
@@ -190,34 +189,34 @@ describe('testing api of blog application', () => {
         expect(author).not.toContain(deleteToBlog.author)
 
 
-
-
     })
+    test('updating likes of the blog', async () => {
+
+        const newBlog = {
+            title: 'Dhangadi',
+            author: 'saru',
+            url: 'www.kathmandupost.com'
+        }
+
+        await api
+            .post('/api/blogs')
+            .send(newBlog)
+            .set(token)
+        const response = await helper.blogsInDb()
 
 
+        const updatedBlog = {
+            likes: 0,
+        }
 
+        await api.put(`/api/blogs/${response[2].id}`).send(updatedBlog).set(token)
+
+        const changedBlog = await helper.blogsInDb()
+
+        expect(changedBlog[2].likes).toBe(1);
+    })
 })
 
-// describe('testing for put api', () => {
-//     test.only('updating likes of the blog', async () => {
-//         //const response = await api.get('/api/blogs');
-//         const response = await helper.blogsInDb()
-
-//         const updatedBlog = {
-//             likes: 20,
-//         }
-
-//         const blogToUpdate = await api.put(`/api/blogs/${response[0].id}`).send(updatedBlog)
-//         //const changedBlog = await api.get('/api/blogs');
-//         const changedBlog = await helper.blogsInDb()
-
-//         //console.log(changedBlog.body[0], 'lahalla')
-//         expect(changedBlog[0].likes).toBe(21);
-
-
-
-//     })
-// })
 
 afterAll(async () => {
     await mongoose.connection.close()

@@ -60,12 +60,12 @@ blogRouter.delete('/:id', userExtrator, async (request, response, next) => {
     try {
 
         const user = request.user
-        console.log(user, 'delete')
+
         const blogId = await Blog.findById(request.params.id)
         if (!blogId) {
             return response.status(404).json({ message: 'this id does not exist' })
         }
-        console.log(blogId, 'blogDelete')
+
         if (user.id.toString() === blogId.user.toString()) {
             await Blog.findByIdAndRemove(request.params.id)
             response.status(204).json({ message: 'Deleted sucessfully' })
@@ -79,17 +79,26 @@ blogRouter.delete('/:id', userExtrator, async (request, response, next) => {
     }
 })
 
-blogRouter.put('/:id', async (request, response, next) => {
+blogRouter.put('/:id', userExtrator, async (request, response, next) => {
     try {
         const { title, author, url, likes } = request.body
+        const user = request.user
+        const blogId = await Blog.findById(request.params.id)
+        console.log(user, 'from put method')
+        console.log(blogId, 'fish')
         const body = {
             title,
             author,
             url,
             likes: likes + 1
         }
-        const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, body, { new: true })
-        response.json(updatedBlog)
+        if (user.id === blogId.user.toJSON()) {
+            const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, body, { new: true })
+            response.json(updatedBlog)
+        }
+
+
+
     } catch (exception) {
         next(exception)
     }

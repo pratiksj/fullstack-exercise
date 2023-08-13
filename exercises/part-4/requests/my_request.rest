@@ -18,14 +18,15 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVza
 
 
 ###
-PUT  http://localhost:3002/api/blogs/64d30de9e64b43122d73b3c6
+PUT  http://localhost:3002/api/blogs/64d8acb0ef317ce450071ace
 Content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzaGEiLCJpZCI6IjY0ZDg2OGRkYzBmYjFmZjc2NWY4NWJhNiIsImlhdCI6MTY5MTkxNTYyM30.0nPxjBDbtYjCxiasPPrpJgKIJH7mUdVSZ9QPNitngz0
 
 {
-"title": "landSlide",
-"author": "sam",
+"title": "when monsoon will over",
+"author": "usha",
 "url": "www.kathmandupost.com",
-"likes": 7
+"likes": 1
  }
 
 ###
