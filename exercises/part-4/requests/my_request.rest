@@ -28,3 +28,16 @@ Content-type: application/json
 "likes": 7
  }
 
+###
+POST http://localhost:3002/api/users
+Content-type: application/json
+
+{
+ "username":"root",
+ "name":"Superuser",
+ "password": "123"
+ 
+ }
+
+###
+ GET http://localhost:3002/api/users
