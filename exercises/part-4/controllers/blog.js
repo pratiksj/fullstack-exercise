@@ -17,32 +17,42 @@ blogRouter.get('/', async (request, response) => {
 })
 
 blogRouter.post('/', userExtrator, async (request, response, next) => {
+    try {
 
-    const body = request.body
+        const body = request.body
 
-    const getUser = request.user
-    const user = await User.findById(getUser.id)
-    console.log(user, 'user')
-    if (!body.likes) {
-        body.likes = 0
+
+        const getUser = request.user
+
+        console.log(getUser, 'from post')
+
+        const user = await User.findById(getUser.id)
+        console.log(user, 'user')
+
+        if (!body.likes) {
+            body.likes = 0
+        }
+
+        if (!body.title || !body.url) {
+            return response.status(400).json({ error: 'content missing' })
+        }
+
+
+
+
+        const blog = new Blog({ title: body.title, author: body.author, url: body.url, likes: body.likes, user: user._id })
+
+
+
+        const savedBlog = await blog.save()
+        console.log('saved', savedBlog)
+        user.blogs = user.blogs.concat(savedBlog._id)
+        await user.save()
+        response.status(201).json(savedBlog)
+    } catch (error) {
+        next(error)
     }
 
-    if (!body.title || !body.url) {
-        return response.status(400).json({ error: 'content missing' })
-    }
-
-
-
-
-    const blog = new Blog({ title: body.title, author: body.author, url: body.url, likes: body.likes, user: user._id })
-
-
-
-    const savedBlog = await blog.save()
-    console.log('saved', savedBlog)
-    user.blogs = user.blogs.concat(savedBlog._id)
-    await user.save()
-    response.status(201).json(savedBlog)
 })
 
 blogRouter.delete('/:id', userExtrator, async (request, response, next) => {
@@ -64,8 +74,8 @@ blogRouter.delete('/:id', userExtrator, async (request, response, next) => {
         }
 
 
-    } catch (exception) {
-        next(exception)
+    } catch (error) {
+        next(error)
     }
 })
 
