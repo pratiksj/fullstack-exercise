@@ -5,10 +5,10 @@ POST http://localhost:3002/api/blogs
 Content-type: application/json
 
 {
- "title":"jananpur",
- "author":"sam" ,
+ "title":"siraha",
+ "author":"Mahesh" ,
  "url": "www.kathmandupost.com",
- "likes":41
+ "userId":"64d864353bf24c2c5b8b783e"
  
 
 }
