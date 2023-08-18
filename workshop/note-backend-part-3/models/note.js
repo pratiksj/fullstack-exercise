@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
+const config = require('../utils/config')
+
+
 
 mongoose.set('strictQuery', false)
-const url = process.env.MONGODB_URL
+const url = config.MONGODB_URI
 
 console.log('connecting to the url')
 
@@ -22,6 +25,14 @@ const noteSchema = new mongoose.Schema({
         required: true
     },
     important: Boolean,
+})
+
+noteSchema.set('toJSON', {
+    transform: (document, returnedObject) => {
+        returnedObject.id = returnedObject._id.toString()
+        delete returnedObject._id
+        delete returnedObject.__v
+    }
 })
 
 

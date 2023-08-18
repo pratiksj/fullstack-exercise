@@ -97,9 +97,6 @@ describe('testing api of blog application', () => {
             .expect(401)
             .expect('Content-Type', /application\/json/)
 
-
-
-
     }, 100000)
 
     test('add 0 to the likes property incase of missing ', async () => {

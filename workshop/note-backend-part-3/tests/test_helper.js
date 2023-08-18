@@ -25,5 +25,5 @@ const notesInDb = async () => {
 }
 
 module.exports = {
-    initialNotes, nonExistingId, notesInDb
+    initialNotes, notesInDb, nonExistingId
 }

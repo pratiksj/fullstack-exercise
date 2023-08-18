@@ -30,7 +30,7 @@ const tokenExtrator = (request, response, next) => {
 }
 
 const userExtrator = async (request, response, next) => {
-    console.log(request, 'from middle ware')
+
     if (!request.token) {
         return response.status(401).json({ error: 'token is not provided' })
     }

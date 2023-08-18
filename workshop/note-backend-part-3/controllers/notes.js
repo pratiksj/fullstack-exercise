@@ -13,16 +13,18 @@ notesRouter.get('/', (req, res) => {
 
 })
 
-notesRouter.get('/:id', (req, res, next) => {
-    Note.findById(req.params.id).then((result) => {
-        if (result) {
-            res.json(result)
+notesRouter.get('/:id', async (req, res, next) => {
+
+    try {
+        const singleNote = await Note.findById(req.params.id)
+        if (singleNote) {
+            res.status(200).json(singleNote)
         } else {
-            res.status(404).send(`There are no notes at${req.params.id}`)
+            res.status(400).end()
         }
-    }).catch((error) => {
-        next(error)
-    })
+    } catch (exception) {
+        next(exception)
+    }
 
 
 })
@@ -35,16 +37,23 @@ notesRouter.delete('/:id', (request, response, next) => {
     }).catch(error => next(error))
 })
 
-notesRouter.post('/', (request, response, next) => {
+notesRouter.post('/', async (request, response, next) => {
     const body = request.body
+    console.log(body, 'hehey')
+    if (!body.content) {
+        return response.status(400).send({ message: "content is missing" })
+    }
     const note = new Note({
         content: body.content,
         important: body.important || false,
     })
-    note.save().then(savedNote => {
-        response.json(savedNote)
-    })
-        .catch(error => next(error))
+    try {
+        const savedNote = await note.save()
+        response.status(201).json(savedNote)
+    } catch (exception) {
+        next(exception)
+    }
+
 
 })
 

@@ -24,7 +24,7 @@ blogRouter.post('/', userExtrator, async (request, response, next) => {
 
         const getUser = request.user
 
-        console.log(getUser, 'from post')
+
 
         const user = await User.findById(getUser.id)
         console.log(user, 'user')
@@ -37,15 +37,10 @@ blogRouter.post('/', userExtrator, async (request, response, next) => {
             return response.status(400).json({ error: 'content missing' })
         }
 
-
-
-
         const blog = new Blog({ title: body.title, author: body.author, url: body.url, likes: body.likes, user: user._id })
 
-
-
         const savedBlog = await blog.save()
-        console.log('saved', savedBlog)
+
         user.blogs = user.blogs.concat(savedBlog._id)
         await user.save()
         response.status(201).json(savedBlog)
