@@ -63,7 +63,7 @@ blogRouter.delete('/:id', userExtrator, async (request, response, next) => {
 
         if (user.id.toString() === blogId.user.toString()) {
             await Blog.findByIdAndRemove(request.params.id)
-            response.status(204).json({ message: 'Deleted sucessfully' })
+            response.status(204).send({ message: 'Deleted sucessfully' })
         } else {
             response.status(401).json({ message: " you don't have permission to delete it" })
         }

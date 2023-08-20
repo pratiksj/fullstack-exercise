@@ -1,6 +1,10 @@
 const notesRouter = require('express').Router()
 const Note = require('../models/note')
 const User = require('../models/user')
+const jwt = require('jsonwebtoken')
+
+
+require('dotenv').config()
 
 
 // notesRouter.get('/', (req, res) => {
@@ -31,12 +35,21 @@ notesRouter.get('/:id', async (req, res, next) => {
 })
 
 notesRouter.delete('/:id', async (request, response, next) => {
-
-
+    const decodedToken = jwt.verify(request.token, process.env.SECRET)
+    const user = await User.findById(decodedToken.id)
+    console.log(user, 'user delete')
+    const note = await Note.findById(request.params.id)
+    console.log(note, 'delete Blog')
 
     try {
-        await Note.findByIdAndDelete(request.params.id)
-        response.status(204).end()
+        if (user._id.toString() === note.user.toString()) {
+            await Note.findByIdAndDelete(request.params.id)
+            response.status(204).json({ message: 'Deleted successfully' })
+        } else {
+            response.status(401).json({ message: 'you do not have permission to delete this blog' })
+        }
+
+
     } catch (exception) {
         next(exception)
     }
@@ -45,7 +58,13 @@ notesRouter.delete('/:id', async (request, response, next) => {
 notesRouter.post('/', async (request, response, next) => {
     const body = request.body
 
-    const user = await User.findById(body.userId)
+    const decodedToken = jwt.verify(request.token, process.env.SECRET)
+    if (!decodedToken.id) {
+        return response.status(401).json({ error: 'token invalid' })
+    }
+    const user = await User.findById(decodedToken.id)
+
+
 
     if (!body.content) {
         return response.status(400).send({ message: "content is missing" })
@@ -53,7 +72,7 @@ notesRouter.post('/', async (request, response, next) => {
     const note = new Note({
         content: body.content,
         important: body.important || false,
-        user: user.id
+        user: user._id
     })
     try {
 
