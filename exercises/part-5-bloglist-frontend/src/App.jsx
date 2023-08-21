@@ -113,6 +113,8 @@ const App = () => {
       setMessage(exception.response.data.error);
     }
   };
+  const sorting = blogs.sort((a, b) => b.likes - a.likes);
+  console.log(sorting, "from app");
   const blogForm = () => {
     return (
       <Togglable buttonLabel="create new Blog">
@@ -131,7 +133,7 @@ const App = () => {
         <div>
           {user.name} has logged in<button onClick={logOut}>logOut</button>
           {blogForm()}{" "}
-          {blogs.map((blog) => (
+          {sorting.map((blog) => (
             <Blog
               key={blog.id}
               blog={blog}
