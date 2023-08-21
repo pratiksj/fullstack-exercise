@@ -3,13 +3,15 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import { Notification } from './components/Notification'
+import Togglable from './components/Togglable'
+import { BlogForm } from './components/BlogForm'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [title,setTitle]= useState('')
-  const [author,setAuthor]=useState('')
+  // const [title,setTitle]= useState('')
+  // const [author,setAuthor]=useState('')
+  // const [url,setUrl]= useState('')
   const [message,setMessage]= useState(null)
-  const [url,setUrl]= useState('')
   const [username,setUsername] =  useState('')
   const [password,setPassword] = useState('')
   const [user,setUser] = useState(null)
@@ -69,13 +71,8 @@ setTimeout(()=>{
   setUser(null)
   
   }
-  const addBlog = async(event)=>{
-    event.preventDefault()
-    const newObj = {
-      title:title,
-      author:author,
-      url:url
-    }
+  const addBlog = async(newObj)=>{
+  
   try{const newBlog = await blogService.create(newObj,user.token)
     setBlogs(blogs.concat(newBlog))
     setMessage(`${newBlog.title} has added by ${user.name}`)
@@ -93,22 +90,29 @@ setTimeout(()=>{
   }
   const blogForm =()=>{
     return(
-      <form onSubmit={addBlog}>
-     <div>
-  title:
-  <input type='text' value={title} name='Title' onChange={({target})=>setTitle(target.value)}/>
-</div>
-<div>
-  author:
-  <input type='text' value={author} name='Author' onChange={(event)=>setAuthor( event.target.value)}/>
-</div>
-<div>
-  Url:
-  <input type='text' value={url} name='Url' onChange={({target})=>setUrl(target.value)}/>
-</div>
-<button type='submit'>create</button>
-      </form>
+      <Togglable buttonLabel ='create new Blog'>
+        <BlogForm createBlog={addBlog}/>
+
+      </Togglable>
     )
+
+//     return(
+//       <form onSubmit={addBlog}>
+//      <div>
+//   title:
+//   <input type='text' value={title} name='Title' onChange={({target})=>setTitle(target.value)}/>
+// </div>
+// <div>
+//   author:
+//   <input type='text' value={author} name='Author' onChange={(event)=>setAuthor( event.target.value)}/>
+// </div>
+// <div>
+//   Url:
+//   <input type='text' value={url} name='Url' onChange={({target})=>setUrl(target.value)}/>
+// </div>
+// <button type='submit'>create</button>
+//       </form>
+//     )
   }
 
   return (
