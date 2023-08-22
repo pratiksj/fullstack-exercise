@@ -1,11 +1,10 @@
-import React from "react";
+import React from 'react'
 
 const BlogDetails = ({ blog, user, update }) => {
   const idOfLikes = (id) => {
-    console.log(id, "from idofLike");
 
-    update(id);
-  };
+    update(id)
+  }
   return (
     <div>
       <div>{blog.author}</div>
@@ -14,7 +13,7 @@ const BlogDetails = ({ blog, user, update }) => {
       <button onClick={() => idOfLikes(blog.id)}>likes</button>
       <div>{user.name}</div>
     </div>
-  );
-};
+  )
+}
 
-export default BlogDetails;
+export default BlogDetails

@@ -1,20 +1,20 @@
-import { useState } from "react";
-import BlogDetails from "./BlogDetails";
+import { useState } from 'react'
+import BlogDetails from './BlogDetails'
 const Blog = ({ blog, user, update, remove }) => {
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(false)
   const toggleVisibility = () => {
-    setVisible(!visible);
-  };
+    setVisible(!visible)
+  }
   const getToRemove = (id) => {
-    remove(id);
-  };
+    remove(id)
+  }
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
-    border: "solid",
+    border: 'solid',
     borderWidth: 1,
     marginBottom: 5,
-  };
+  }
 
   return (
     <div style={blogStyle}>
@@ -26,7 +26,7 @@ const Blog = ({ blog, user, update, remove }) => {
           {user.id === (blog.user.id || blog.user) && (
             <button
               onClick={() => {
-                getToRemove(blog.id);
+                getToRemove(blog.id)
               }}
             >
               Delete
@@ -37,7 +37,7 @@ const Blog = ({ blog, user, update, remove }) => {
         <button onClick={toggleVisibility}>view</button>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default Blog;
+export default Blog
