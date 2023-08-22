@@ -95,14 +95,11 @@ const App = () => {
     };
 
     try {
-      const newBlog = await blogService.update(
-        objToUpdate,
-        blogToUpdate.id,
-        user.token
-      );
+      const newBlog = await blogService.update(objToUpdate, id, user.token);
+      console.log(newBlog, "increaseLike");
 
       const updateState = blogs.map((blog) =>
-        blog.id === blogToUpdate.id ? newBlog : blog
+        blog.id === id ? newBlog : blog
       );
       setBlogs(updateState);
       setMessage(`${blogToUpdate.title} has updated`);
@@ -110,11 +107,30 @@ const App = () => {
         setMessage(null);
       }, 2000);
     } catch (exception) {
-      setMessage(exception.response.data.error);
+      console.log("wrong");
     }
   };
+  const remove = async (obId) => {
+    const checkId = blogs.find((data) => data.id === obId);
+    try {
+      if (window.confirm(`Are you sure to delete ${checkId.title}`)) {
+        await blogService.remove(obId, user.token);
+        setBlogs(blogs.filter((blog) => blog.id !== obId));
+        setMessage(`${checkId.title} has deleted successfully`);
+        setTimeout(() => {
+          setMessage(null);
+        }, 2000);
+      }
+    } catch (exception) {
+      setMessage(exception.response.data.error);
+      setTimeout(() => {
+        setMessage(null);
+      }, 2000);
+    }
+  };
+
   const sorting = blogs.sort((a, b) => b.likes - a.likes);
-  console.log(sorting, "from app");
+
   const blogForm = () => {
     return (
       <Togglable buttonLabel="create new Blog">
@@ -139,6 +155,7 @@ const App = () => {
               blog={blog}
               user={user}
               update={increaseLikes}
+              remove={remove}
             />
           ))}
         </div>

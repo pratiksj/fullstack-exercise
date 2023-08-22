@@ -12,10 +12,9 @@ const create = async (newObj, token) => {
   const config = {
     headers: { authorization: `Bearer ${token}` }
   }
-  console.log(config, 'from create')
-  console.log(newObj, 'obj from service')
+
   const request = await axios.post(baseUrl, newObj, config)
-  console.log(request.data, 'from service')
+
   return request.data
 }
 
@@ -28,4 +27,15 @@ const update = async (newObj, id, token) => {
 
 }
 
-export default { getAll, create, update }
+const remove = async (id, token) => {
+
+  const config = {
+    headers: { authorization: `Bearer ${token}` }
+  }
+
+  const request = await axios.delete(`${baseUrl}/${id}`, config)
+
+  return request.data
+}
+
+export default { getAll, create, update, remove }

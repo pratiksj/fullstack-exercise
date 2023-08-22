@@ -27,7 +27,7 @@ blogRouter.post('/', userExtrator, async (request, response, next) => {
 
 
         const user = await User.findById(getUser.id)
-        console.log(user, 'user')
+
 
         if (!body.likes) {
             body.likes = 0
@@ -52,9 +52,11 @@ blogRouter.post('/', userExtrator, async (request, response, next) => {
 
 blogRouter.delete('/:id', userExtrator, async (request, response, next) => {
 
+
     try {
 
         const user = request.user
+
 
         const blogId = await Blog.findById(request.params.id)
         if (!blogId) {
@@ -77,20 +79,26 @@ blogRouter.delete('/:id', userExtrator, async (request, response, next) => {
 blogRouter.put('/:id', userExtrator, async (request, response, next) => {
     try {
         const { title, author, url, likes } = request.body
-        const user = request.user
-        const blogId = await Blog.findById(request.params.id)
-        console.log(user, 'from put method')
-        console.log(blogId, 'fish')
+        //const user = request.user
+
+
         const body = {
             title,
             author,
             url,
             likes: likes + 1
         }
-        if (user.id === blogId.user.toJSON()) {
-            const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, body, { new: true })
-            response.json(updatedBlog)
+        // if (user.id === blogId.user.toJSON()) {
+        //     const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, body, { new: true })
+        //     response.json(updatedBlog)
+        // } this line of code prohibit logged in user to like someone else blog
+        const blogId = await Blog.findById(request.params.id)
+        if (!blogId) {
+            response.status(404).json({ error: "this id doesn't exist" });
         }
+
+        const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, body, { new: true })
+        response.json(updatedBlog)
 
 
 
