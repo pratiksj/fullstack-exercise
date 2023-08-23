@@ -30,7 +30,10 @@ const update = (id, newObject) => {
 };
 
 const remove = (id) => {
-  return axios.delete(`${baseUrl}/${id}`);
+  const config = {
+    headers: { authorization: token },
+  }
+  return axios.delete(`${baseUrl}/${id}`, config);
 };
 
 export default {
