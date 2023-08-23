@@ -66,7 +66,7 @@ const App = () => {
 
   const toggleImportanceOf = async (id) => {
     try {
-      console.log(id, 'from app')
+
 
       const note = notes.find((n) => n.id === id);
       const noteTochange = { ...note, important: !note.important };
