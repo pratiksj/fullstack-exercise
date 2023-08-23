@@ -18,7 +18,7 @@ export const LoginFrom = ({ collection }) => {
                 />
 
             </div>
-            <button type="submit">login</button>
+            <button type="submit">submit</button>
         </form>
     )
 }

@@ -82,7 +82,7 @@ const App = () => {
         setErrorMessage(null);
       }, 5000);
       // setNotes(notes.filter((note) => note.id !== id));
-    };
+    }
   };
   const noteToDelete = async (id) => {
     try {
