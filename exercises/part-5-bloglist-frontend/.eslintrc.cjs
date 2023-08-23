@@ -32,6 +32,13 @@ module.exports = {
       "error",
       "never"
     ],
+    // 'no-restricted-globals': [
+    //   'error',
+    //   {
+    //     name: 'fetch',
+    //     message: 'Do not use fetch to avoid network requests in ESLint.',
+    //   },
+    // ],
     "eqeqeq": "error",
     "no-trailing-spaces": "error",
     "object-curly-spacing": [

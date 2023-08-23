@@ -18,7 +18,10 @@ const Blog = ({ blog, user, update, remove }) => {
 
   return (
     <div style={blogStyle}>
-      {blog.title}
+      <div className='blog'>
+        {blog.title}
+        {blog.author}
+      </div>
       {visible ? (
         <div>
           <BlogDetails blog={blog} user={user} update={update} />
