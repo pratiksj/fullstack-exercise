@@ -53,3 +53,32 @@ test('call the BlogDetails component', async () => {
     expect(showUrl).toHaveTextContent('kathmandupost.com')
     expect(showLikes).toHaveTextContent(11)
 })
+
+test.only('clicking like button for twice', async () => {
+    const blog = {
+        title: 'javascript is hard',
+        author: 'usha',
+        url: 'kathmandupost.com',
+        likes: 11,
+        user: {
+            username: 'laxmi',
+            name: 'laxmi',
+            id: '1234566',
+        },
+    }
+    const User = {
+        username: 'laxmi',
+        name: 'laxmi',
+        id: '1234566'
+    }
+    const mockHandler = jest.fn()
+    render(<Blog blog={blog} user={User} update={mockHandler} />)
+    const user = userEvent.setup()
+    const button = screen.getByText('view')
+    await user.click(button)
+    const { container } = render(<BlogDetails blog={blog} update={mockHandler} />)
+    const likeButton = container.querySelector('.myLikes')
+    await user.click(likeButton)
+    await user.click(likeButton)
+    expect(mockHandler.mock.calls).toHaveLength(2)
+})
