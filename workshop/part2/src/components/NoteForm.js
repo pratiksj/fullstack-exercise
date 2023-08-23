@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 
 export const NoteForm = ({ create }) => {
-    const [newNote, setNewNote] = useState("new note..");
+    const [newNote, setNewNote] = useState("");
 
     const addNote = (event) => {
         event.preventDefault();
@@ -19,10 +19,12 @@ export const NoteForm = ({ create }) => {
     };
 
     return (
-        <form onSubmit={addNote}>
-            <input value={newNote} onChange={handleOnChange} />
-            <button>save</button>
-        </form>
+        <div className='formDiv'>
+            <form onSubmit={addNote}>
+                <input value={newNote} onChange={handleOnChange} />
+                <button>save</button>
+            </form>
+        </div>
     )
 
 }
