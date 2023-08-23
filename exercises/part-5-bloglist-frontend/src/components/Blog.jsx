@@ -37,7 +37,7 @@ const Blog = ({ blog, user, update, remove }) => {
           )}
         </div>
       ) : (
-        <button onClick={toggleVisibility}>view</button>
+        <button onClick={toggleVisibility} className='view' >view</button>
       )}
     </div>
   )

@@ -7,11 +7,10 @@ const BlogDetails = ({ blog, user, update }) => {
   }
   return (
     <div>
-      <div>{blog.author}</div>
-      <div>{blog.url}</div>
-      <div>{blog.likes}</div>
+      <div className='author'>{blog.author}</div>
+      <div className='url'>{blog.url}</div>
+      <div className='likes'>{blog.likes}</div>
       <button onClick={() => idOfLikes(blog.id)}>likes</button>
-      <div>{user.name}</div>
     </div>
   )
 }
