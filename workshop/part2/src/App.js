@@ -64,30 +64,38 @@ const App = () => {
     ? notes
     : notes.filter((note) => note.important === true);
 
-  const toggleImportanceOf = (id) => {
+  const toggleImportanceOf = async (id) => {
+    try {
+      console.log(id, 'from app')
 
-    const note = notes.find((n) => n.id === id);
-    const noteTochange = { ...note, important: !note.important };
-    noteServices
-      .update(id, noteTochange)
-      .then((response) => {
-        setNotes(notes.map((n) => (n.id !== id ? n : response.data)));
-      })
-      .catch((error) => {
-        setErrorMessage(
-          `the note '${note.content}' was already deleted from server`
-        );
-        setTimeout(() => {
-          setErrorMessage(null);
-        }, 5000);
-        setNotes(notes.filter((note) => note.id !== id));
-      });
+      const note = notes.find((n) => n.id === id);
+      const noteTochange = { ...note, important: !note.important };
+      const updatedNote = await noteServices.update(id, noteTochange)
+      setNotes(notes.map((note) => note.id !== id ? note : updatedNote))
+
+    }
+    catch (exception) {
+      setErrorMessage(
+
+      );
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 5000);
+      // setNotes(notes.filter((note) => note.id !== id));
+    };
   };
-  const noteToDelete = (id) => {
+  const noteToDelete = async (id) => {
+    try {
+      await noteServices.remove(id)
+      setNotes(notes.filter((note) => note.id !== id))
+    } catch (exception) {
+      setErrorMessage(exception.response.data.message)
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 2000)
+    }
 
-    noteServices.remove(id).then((response) => {
-      setNotes(notes.filter((note) => note.id !== id));
-    });
+
   };
 
   const addNote = (noteObject) => {

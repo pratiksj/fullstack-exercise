@@ -5,7 +5,7 @@ const baseUrl = '/api/notes'
 let token = null
 
 const setToken = (newToken) => {
-  console.log(newToken, 'tokenservice')
+
   token = `Bearer ${newToken}`
 }
 
@@ -19,14 +19,19 @@ const create = (newObject) => {
   const config = {
     headers: { authorization: token },
   }
-  console.log(config, 'config from create')
+
   let request = axios.post(baseUrl, newObject, config);
 
   return request.then((response) => response.data);
 };
 
-const update = (id, newObject) => {
-  return axios.put(`${baseUrl}/${id}`, newObject);
+const update = async (id, newObject) => {
+  const config = {
+    headers: { authorization: token },
+  }
+
+  const response = await axios.put(`${baseUrl}/${id}`, newObject, config);
+  return response.data
 };
 
 const remove = (id) => {

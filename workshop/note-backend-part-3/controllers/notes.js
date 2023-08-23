@@ -37,9 +37,9 @@ notesRouter.get('/:id', async (req, res, next) => {
 notesRouter.delete('/:id', async (request, response, next) => {
     const decodedToken = jwt.verify(request.token, process.env.SECRET)
     const user = await User.findById(decodedToken.id)
-    console.log(user, 'user delete')
+
     const note = await Note.findById(request.params.id)
-    console.log(note, 'delete Blog')
+
 
     try {
         if (user._id.toString() === note.user.toString()) {
@@ -85,6 +85,21 @@ notesRouter.post('/', async (request, response, next) => {
         next(exception)
     }
 
+
+})
+
+notesRouter.put('/:id', async (request, response, next) => {
+    try {
+        const decodedToken = jwt.verify(request.token, process.env.SECRET)
+        const user = await User.findById(decodedToken.id)
+        if (!user) {
+            response.status(404).json({ error: 'this id does not exist' })
+        }
+        const updatedContent = await Note.findByIdAndUpdate(request.params.id, request.body, { new: true })
+        response.json(updatedContent)
+    } catch (exception) {
+        next(exception)
+    }
 
 })
 

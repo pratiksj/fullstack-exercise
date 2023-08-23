@@ -38,3 +38,14 @@ Content-type: application/json
 "password":"123"
    
 }
+
+###
+PUT  http://localhost:3001/api/notes/64e1aa13bab2e4b8123d4d25
+Content-type: application/json
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImxheG1pIiwiaWQiOiI2NGUxYTUxOWVkNjQ3NzRmOWEwYWRkM2YiLCJpYXQiOjE2OTI1MjAwMjd9.PG2tY-53dYMlLVzl2aCmITo-F3EFJas2tE0-QeT3xwI
+
+{
+"content": "New note from the loggedIn user",
+"important": true
+   
+}
