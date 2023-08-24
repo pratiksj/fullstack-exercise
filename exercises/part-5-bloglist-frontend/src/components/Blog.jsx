@@ -20,7 +20,7 @@ const Blog = ({ blog, user, update, remove }) => {
     <div style={blogStyle}>
       <div className='blog'>
         {blog.title}
-        {blog.author}
+
       </div>
       {visible ? (
         <div>
@@ -37,7 +37,7 @@ const Blog = ({ blog, user, update, remove }) => {
           )}
         </div>
       ) : (
-        <button onClick={toggleVisibility} className='view' >view</button>
+        <button onClick={toggleVisibility} id='view' className='view' >view</button>
       )}
     </div>
   )
