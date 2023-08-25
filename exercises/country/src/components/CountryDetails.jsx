@@ -1,6 +1,7 @@
 import React from "react";
 
 const CountryDetails = ({ country, weatherData }) => {
+  console.log("countrydetails");
   return (
     <div>
       <p>

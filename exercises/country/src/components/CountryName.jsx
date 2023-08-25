@@ -9,6 +9,8 @@ const CountryName = ({
   handleShowButton,
   handleHideButton,
 }) => {
+  console.log(selectedCountry, "cuntry");
+  console.log(filterCountry, "cuntry1");
   const [weatherData, setWeatherData] = useState({
     temperature: "",
     wind: "",

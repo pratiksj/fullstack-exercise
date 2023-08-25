@@ -1,4 +1,6 @@
 /* eslint-disable default-case */
+import { createSlice } from '@reduxjs/toolkit'
+
 const anecdotesAtStart = [
   'If it hurts, do it more often',
   'Adding manpower to a late software project makes it later!',
@@ -22,41 +24,48 @@ const initialState = anecdotesAtStart.map(asObject)
 
 
 
-const reducer = (state = initialState, action) => {
-  switch (action.type) {
-    case "LIKE_VOTE": {
-      const anecdoteId = action.payload.id
+// const reducer = (state = initialState, action) => {
+//   switch (action.type) {
+//     case "LIKE_VOTE": {
+//       const anecdoteId = action.payload.id
+//       const findAnecdote = state.find((data) => data.id === anecdoteId)
+//       return state.map((data) => data.id === anecdoteId ? { ...findAnecdote, votes: findAnecdote.votes + 1 } : data)
+//     }
+//     case "NEW_ANECDOTE": {
+//       const newNote = action.payload
+
+//       return state.concat(newNote)
+//     }
+
+//     default: return state
+//   }
+
+
+// }
+const anecdoteSlice = createSlice({
+  name: 'anecdotes',
+  initialState,
+  reducers: {
+    createAnecdote(state, action) {
+      const content = action.payload
+      state.push({
+        content,
+        id: getId(),
+        votes: 0
+      })
+    },
+    likeVote(state, action) {
+      const anecdoteId = action.payload
       const findAnecdote = state.find((data) => data.id === anecdoteId)
       return state.map((data) => data.id === anecdoteId ? { ...findAnecdote, votes: findAnecdote.votes + 1 } : data)
     }
-    case "NEW_ANECDOTE": {
-      const newNote = action.payload
-
-      return state.concat(newNote)
-    }
-
-    default: return state
   }
 
 
-}
 
-export const likeVote = (id) => {
-  return {
-    type: "LIKE_VOTE",
-    payload: { id }
-  }
-}
-export const createAnecdote = (content) => {
 
-  return {
-    type: "NEW_ANECDOTE",
-    payload: {
-      content,
-      id: getId(),
-      votes: 0
-    }
-  }
-}
+})
 
-export default reducer
+
+export const { createAnecdote, likeVote } = anecdoteSlice.actions
+export default anecdoteSlice.reducer
