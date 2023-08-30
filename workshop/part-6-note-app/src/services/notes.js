@@ -6,5 +6,15 @@ const getAll = async () => {
     return response.data
 }
 
-export default { getAll }
+const create = async (newNote) => {
+    const response = await axios.post(baseUrl, newNote)
+    return response.data
+}
+
+const update = async (id, objToUpdate) => {
+    const response = await axios.put(`${baseUrl}/${id}`, objToUpdate)
+    return response.data
+}
+
+export default { getAll, create, update }
 
