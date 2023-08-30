@@ -1,0 +1,22 @@
+{
+  "notes": [
+    {
+      "content": "kathmandu",
+      "data": "2023-07-27T02:45:42.169Z",
+      "important": false,
+      "id": 1
+    },
+    {
+      "content": " janakpur",
+      "data": "2023-07-27T02:46:02.943Z",
+      "important": false,
+      "id": 2
+    },
+    {
+      "content": "pokhara",
+      "data": "2023-08-02T09:38:05.255Z",
+      "important": true,
+      "id": 3
+    }
+  ]
+}
