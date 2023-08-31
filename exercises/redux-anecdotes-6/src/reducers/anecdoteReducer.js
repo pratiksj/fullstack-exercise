@@ -63,3 +63,15 @@ export const getAnecdote = () => {
     dispatch(setAnecdote(anecdotes))
   }
 }
+
+export const addAnecdotes = (content) => {
+  return async dispatch => {
+    const newObj = {
+      content,
+      votes: 0
+    }
+    const anecdote = await anecdoteService.create(newObj)
+
+    dispatch(createAnecdote(anecdote))
+  }
+}
