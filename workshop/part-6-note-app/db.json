@@ -3,7 +3,7 @@
     {
       "content": "kathmandu",
       "data": "2023-07-27T02:45:42.169Z",
-      "important": true,
+      "important": false,
       "id": 1
     },
     {
@@ -25,13 +25,18 @@
     },
     {
       "content": "bharatpur",
-      "important": true,
+      "important": false,
       "id": 5
     },
     {
       "content": "hetauda",
       "important": false,
       "id": 6
+    },
+    {
+      "content": "decent khaja",
+      "important": true,
+      "id": 7
     }
   ]
 }
