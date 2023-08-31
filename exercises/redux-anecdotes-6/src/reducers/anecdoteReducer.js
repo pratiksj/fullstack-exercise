@@ -39,6 +39,9 @@ const anecdoteSlice = createSlice({
       const findAnecdote = state.find((data) => data.id === anecdoteId)
       return state.map((data) => data.id === anecdoteId ? { ...findAnecdote, votes: findAnecdote.votes + 1 } : data)
     },
+    removeAnecdote(state, action) {
+      return state.filter((data) => data.id !== action.payload)
+    },
     appendAnecdote(state, action) {
       state.push(action.payload)
     },
@@ -50,7 +53,7 @@ const anecdoteSlice = createSlice({
 })
 
 
-export const { createAnecdote, likeVote, appendAnecdote, setAnecdote } = anecdoteSlice.actions
+export const { createAnecdote, likeVote, appendAnecdote, setAnecdote, removeAnecdote } = anecdoteSlice.actions
 export default anecdoteSlice.reducer
 
 export const getAnecdote = () => {
@@ -77,6 +80,17 @@ export const likeAnecdote = (id, obj) => {
     const newObj = { ...obj, votes: obj.votes + 1 }
     await anecdoteService.update(id, newObj)
     dispatch(likeVote(id))
+
+  }
+}
+
+export const deleteAnecdote = (id) => {
+  return async dispatch => {
+    if (window.confirm('Are are sure,to delete this anecdote')) {
+
+      await anecdoteService.remove(id)
+      dispatch(removeAnecdote(id))
+    }
 
   }
 }

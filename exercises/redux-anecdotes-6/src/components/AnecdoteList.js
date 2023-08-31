@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { likeAnecdote } from '../reducers/anecdoteReducer'
+import { likeAnecdote, deleteAnecdote } from '../reducers/anecdoteReducer'
 import { setNotification } from '../reducers/notificationReducer'
 
 
@@ -18,6 +18,11 @@ const AnecdoteList = () => {
         dispatch(likeAnecdote(id, findAnecdote))
         dispatch(setNotification(`${findAnecdote.content} has been liked`, 2))
     }
+    const remove = (id) => {
+        dispatch(deleteAnecdote(id))
+        dispatch(setNotification(`Deleted`, 2))
+
+    }
 
     return (
         <div>{filterVote.map(anecdote =>
@@ -28,7 +33,9 @@ const AnecdoteList = () => {
                 <div>
                     has {anecdote.votes}
                     <button onClick={() => vote(anecdote.id)}>vote</button>
+                    <button onClick={() => remove(anecdote.id)}>delete</button>
                 </div>
+
             </div>
         )}</div>
     )
