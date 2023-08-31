@@ -9,7 +9,7 @@
     {
       "content": " janakpur",
       "data": "2023-07-27T02:46:02.943Z",
-      "important": true,
+      "important": false,
       "id": 2
     },
     {
@@ -20,7 +20,7 @@
     },
     {
       "content": "bharatpur",
-      "important": true,
+      "important": false,
       "id": 4
     }
   ]
