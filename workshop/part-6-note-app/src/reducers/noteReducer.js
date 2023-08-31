@@ -42,3 +42,18 @@ export const initializeNote = () => {
     }
 }
 
+export const changeImportant = (id, newObj) => {
+    return async dispatch => {
+        const updatedNote = await noteService.update(id, newObj)
+        return updatedNote
+        //dispatch(toggleImportanceOf(updateNote))
+    }
+}
+
+export const addNewNote = (newNote) => {
+    return async dispatch => {
+        const addedNote = await noteService.create(newNote)
+        dispatch(createNote(addedNote))
+    }
+}
+

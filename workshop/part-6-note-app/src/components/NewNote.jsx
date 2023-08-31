@@ -1,6 +1,5 @@
 import { useDispatch } from "react-redux";
-import { createNote } from "../reducers/noteReducer";
-import noteService from "../services/notes";
+import { addNewNote } from "../reducers/noteReducer";
 
 const NewNote = () => {
   const dispatch = useDispatch();
@@ -13,9 +12,7 @@ const NewNote = () => {
       content,
       important: false,
     };
-    const newContent = await noteService.create(newNote);
-
-    dispatch(createNote(newContent));
+    dispatch(addNewNote(newNote));
   };
 
   return (

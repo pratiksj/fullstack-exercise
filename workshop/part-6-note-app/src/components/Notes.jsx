@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
-import { toggleImportanceOf } from "../reducers/noteReducer";
-import noteService from "../services/notes";
+import { toggleImportanceOf, changeImportant } from "../reducers/noteReducer";
+
 import Note from "./Note";
 
 const Notes = () => {
@@ -19,8 +19,11 @@ const Notes = () => {
       ...findNote,
       important: !findNote.important,
     };
-    const updatedNote = await noteService.update(id, newObj);
-    dispatch(toggleImportanceOf(updatedNote));
+    const data = await dispatch(changeImportant(id, newObj));
+    console.log(data, "pratiksh");
+
+    //const updatedNote = await noteService.update(id, newObj);
+    dispatch(toggleImportanceOf(data));
   };
 
   return (
