@@ -6,7 +6,6 @@ import store from './store'
 
 
 
-console.log(store.getState(), 'from index.js')
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
