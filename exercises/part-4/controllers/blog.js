@@ -24,8 +24,6 @@ blogRouter.post('/', userExtrator, async (request, response, next) => {
 
         const getUser = request.user
 
-
-
         const user = await User.findById(getUser.id)
 
 

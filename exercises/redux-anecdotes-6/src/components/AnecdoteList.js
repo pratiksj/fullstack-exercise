@@ -1,6 +1,8 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { likeVote } from '../reducers/anecdoteReducer'
+import { likeAnecdote } from '../reducers/anecdoteReducer'
+import { setNotification } from '../reducers/notificationReducer'
+
 
 const AnecdoteList = () => {
     const anecdotes = useSelector(state => state.anecdotes)
@@ -12,7 +14,9 @@ const AnecdoteList = () => {
     const dispatch = useDispatch()
     const filterVote = filter.sort((a, b) => b.votes - a.votes)
     const vote = (id) => {
-        dispatch(likeVote(id))
+        const findAnecdote = filter.find((anecdote) => anecdote.id === id)
+        dispatch(likeAnecdote(id, findAnecdote))
+        dispatch(setNotification(`${findAnecdote.content} has been liked`, 2))
     }
 
     return (

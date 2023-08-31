@@ -47,10 +47,6 @@ const anecdoteSlice = createSlice({
     }
 
   }
-
-
-
-
 })
 
 
@@ -75,3 +71,13 @@ export const addAnecdotes = (content) => {
     dispatch(createAnecdote(anecdote))
   }
 }
+
+export const likeAnecdote = (id, obj) => {
+  return async dispatch => {
+    const newObj = { ...obj, votes: obj.votes + 1 }
+    await anecdoteService.update(id, newObj)
+    dispatch(likeVote(id))
+
+  }
+}
+
