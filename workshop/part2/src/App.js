@@ -118,29 +118,22 @@ const App = () => {
 
 
   const loginForm = () => {
-
-
     return (
-      <div>
-
-        <div>
-          <Togglable buttonLabel='login'>
-            <LoginFrom
-              collection={propsCollection}
-            />
-          </Togglable>
-
-        </div>
-      </div>
-    )
+      <Togglable buttonLabel='login'>
+        <LoginFrom
+          collection={propsCollection}
+        />
+      </Togglable>)
   }
 
 
   const noteForm = () => {
     return (
-      <Togglable buttonLabel='create new note' ref={noteFormRef}>
-        <NoteForm create={addNote} />
-      </Togglable>
+      <div>
+        <Togglable buttonLabel='create new note' ref={noteFormRef}>
+          <NoteForm create={addNote} />
+        </Togglable>
+      </div>
 
     )
   }
@@ -156,6 +149,7 @@ const App = () => {
           {noteForm()}
         </div>
       }
+
 
       <div>
         <button onClick={() => setShowAll(!showAll)}>

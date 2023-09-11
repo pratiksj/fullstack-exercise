@@ -27,11 +27,6 @@ const noteSlice = createSlice({
 })
 
 
-
-
-
-
-
 export const { createNote, toggleImportanceOf, appendNote, setNotes } = noteSlice.actions
 export default noteSlice.reducer
 
