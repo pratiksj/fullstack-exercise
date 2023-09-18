@@ -11,7 +11,7 @@ const AnecdoteForm = () => {
     const anecdotes = queryClient.getQueryData(['anecdote'])
     
     queryClient.setQueryData(['anecdote'],anecdotes.concat(newAnecdote))
-     dispatch({type:'NOTI',payload:`${newAnecdote.content}has added`})
+     dispatch({type:'NOTI',payload:`${newAnecdote.content} has added`})
      setTimeout(()=>{
       dispatch({type:'NOTI',payload:null})
      },2000)
