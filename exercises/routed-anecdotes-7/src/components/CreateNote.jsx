@@ -5,9 +5,6 @@ const CreateNew = (props) => {
   const content = useField('content')
   const author = useField('author')
   const info = useField('info')
-    // const [content, setContent] = useState('')
-    // const [author, setAuthor] = useState('')
-    // const [info, setInfo] = useState('')
   
   
     const handleSubmit = (e) => {
@@ -19,6 +16,11 @@ const CreateNew = (props) => {
         votes: 0
       })
     }
+  const onChange=()=>{
+   content.removeAll()
+   author.removeAll()
+   info.removeAll()
+  }
   
     return (
       <div>
@@ -30,14 +32,16 @@ const CreateNew = (props) => {
           </div>
           <div>
             author
-            <input type={author.type} value={author.value} onChange={author.onChange} />
+            <input type={author.type} value={author.value} onChange={author.onChange}  />
           </div>
           <div>
             url for more info
             <input type={info.type} value={info.value} onChange={info.onChange} />
           </div>
           <button>create</button>
+      
         </form>
+        <button  onClick={onChange}>reset</button>
       </div>
     )
   
