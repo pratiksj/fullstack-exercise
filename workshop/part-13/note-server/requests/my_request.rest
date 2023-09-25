@@ -1,0 +1,22 @@
+GET http://localhost:3001/api/notes
+
+
+###
+POST http://localhost:3001/api/notes
+Content-type: application/json
+
+{
+"content": "winter is coming again",
+"important":"true"
+
+}
+
+###
+PUT http://localhost:3001/api/notes/1
+Content-type: application/json
+
+{
+"content": "Relational databases rule the world",
+"important":"false"
+
+}
