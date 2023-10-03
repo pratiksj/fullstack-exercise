@@ -34,45 +34,48 @@ router.post('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     const user = await User.findByPk(req.params.id, {
-        attributes: { exclude: [''] },
-        include: [{
+        // attributes: { exclude: [''] },
+        include: {
             model: Note,
             attributes: { exclude: ['userId'] }
         },
-        {
-            model: Note,
-            as: 'marked_notes',
-            attributes: { exclude: ['userId'] },
-            through: {
-                attributes: []
-            },
-            include: {
-                model: User,
-                attributes: ['name']
-            }
-        },
-            // {
-            //     model: Team,
-            //     attributes: ['name', 'id'],
-            //     through: {
-            //         attributes: []
-            //     }
-            // },
-        ]
+        // {
+        //     // model: Note,
+        //     // as: 'marked_notes',
+        //     // attributes: { exclude: ['userId'] },
+        //     // through: {
+        //     //     attributes: []
+        //     // },
+        //     // include: {
+        //     //     model: User,
+        //     //     attributes: ['name']
+        //     // }
+        // },
+        // {
+        //     model: Team,
+        //     attributes: ['name', 'id'],
+        //     through: {
+        //         attributes: []
+        //     }
+        // },
+
     })
-    let teams = undefined
-    if (req.query.teams) {
-        teams = await user.getTeams({
-            attributes: ['name'],
-            joinTableAttributes: []
-        })
-    }
-    res.json({ ...user.toJSON(), teams })
-    // if (user) {
-    //     res.json(user)
-    // } else {
-    //     res.status(404).end()
+    // let teams = undefined
+    // if (req.query.teams) {
+    //     teams = await user.getTeams({
+    //         attributes: ['name'],
+    //         joinTableAttributes: []
+    //     })
     // }
+    // res.json({ ...user.toJSON(), teams })
+    if (user) {
+        user.notes.forEach((note) => {
+            console.log(note.content)
+        });
+
+    } else {
+        res.status(404).end()
+    }
 })
 
 const isAdmin = async (req, res, next) => {
