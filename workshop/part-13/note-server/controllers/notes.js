@@ -41,7 +41,29 @@ router.post('/', tokenExtractor, async (req, res) => {
 })
 
 router.get('/:id', async (req, res) => {
-    const note = await Note.findByPk(req.params.id)
+    const note = await Note.findByPk(req.params.id, {
+        attributes: { exclude: [''] },
+        include: [
+            {
+                model: User,
+                attributes: { exclude: [' '] }
+            },
+            {
+                model: User,
+                as: 'marked_notes',
+                attributes: { exclude: [' '] },
+                through: {
+                    attributes: []
+                },
+
+            }
+
+        ]
+
+
+
+    })
+
     if (note) {
         res.json(note)
     } else {
