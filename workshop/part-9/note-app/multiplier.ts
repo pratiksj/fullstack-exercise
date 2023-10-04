@@ -1,6 +1,7 @@
 type Operation= 'multiply'|'add'|'divide'
+type Result = string|number
 
-const multiplicator = (a:number, b:number, op:Operation):number|string => {
+const multiplicator = (a:number, b:number, op:Operation):Result => {
     if (op === 'multiply') {
         return a * b;
       } else if (op === 'add') {
