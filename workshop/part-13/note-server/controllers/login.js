@@ -10,11 +10,13 @@ const { User } = require('../model')
 router.post('/', async (request, response) => {
     const body = request.body
 
+
     const user = await User.findOne({
         where: {
             username: body.username
         }
     })
+    console.log(user, 'user')
 
     const passwordCorrect = body.password === 'secret'
 

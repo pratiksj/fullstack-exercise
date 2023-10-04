@@ -3,24 +3,24 @@ const Note = require('./note')
 const { sequelize } = require('../util/db')
 
 class User extends Model {
-    // async number_of_notes() {
-    //     return (await this.getNotes()).length
-    // }
-    // static async with_notes(limit) {
-    //     return await User.findAll({
-    //         attributes: {
-    //             include: [[sequelize.fn("COUNT", sequelize.col("notes.id")), "note_count"]]
-    //         },
-    //         include: [
-    //             {
-    //                 model: Note,
-    //                 attributes: []
-    //             },
-    //         ],
-    //         group: ['user.id'],
-    //         having: sequelize.literal(`COUNT(notes.id) > ${limit}`)
-    //     })
-    // }
+    async number_of_notes() {
+        return (await this.getNotes()).length
+    }
+    static async with_notes(limit) {
+        return await User.findAll({
+            attributes: {
+                include: [[sequelize.fn("COUNT", sequelize.col("notes.id")), "note_count"]]
+            },
+            include: [
+                {
+                    model: Note,
+                    attributes: []
+                },
+            ],
+            group: ['user.id'],
+            having: sequelize.literal(`COUNT(notes.id) > ${limit}`)
+        })
+    }
 
 }
 
@@ -67,7 +67,16 @@ User.init({
     //         where: {
     //             disabled: true
     //         }
-    //     }
+    //     },
+    //     // name(value) {
+    //     //     return {
+    //     //         where: {
+    //     //             name: {
+    //     //                 [Op.iLike]: value
+    //     //             }
+    //     //         }
+    //     //     }
+    //     // },
     // }
 })
 
