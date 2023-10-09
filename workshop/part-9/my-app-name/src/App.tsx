@@ -1,5 +1,6 @@
 import { CoursePart } from "./type";
 
+const assertNever = (value: never): never => value
 
 const App = () => {
   const courseName = "Half Stack application development";
@@ -37,9 +38,11 @@ const App = () => {
 
   return(
     <>
+    <h1>{courseName}</h1>
     {courseParts.map((val)=>(
       <div key={val.name}>
-       {val.name}
+       {val.name}{val.exerciseCount}
+       {val.kind==='basic'?(<div>{val.description}</div>):val.kind==='group'?(<div>{val.groupProjectCount}</div>):val.kind==='background'?(<div>{val.backgroundMaterial}</div>):(assertNever(val))}
       </div>
     ))}
     </>
