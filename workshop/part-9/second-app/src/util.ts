@@ -24,6 +24,7 @@ const isString = (text: unknown): text is string => {
   };
 
   const parseWeather = (weather: unknown): Weather => {
+  
     if (!weather || !isString(weather) || !isWeather(weather)) {
         throw new Error('Incorrect or missing weather: ' + weather);
     }
@@ -32,12 +33,12 @@ const isString = (text: unknown): text is string => {
 
 
 const isWeather = (param: string): param is Weather => {
-  console.log(param,'weather param');
+
     return Object.values(Weather).map(v => v.toString()).includes(param);
   };
 
   const isVisibility = (param: string): param is Visibility => {
-    console.log(param,'visibility params');
+    
     return Object.values(Visibility).map(v => v.toString()).includes(param);
   };
   

@@ -20,9 +20,8 @@ router.get('/:id', (req, res) => {
   });
 
   router.post('/', (req, res) => {
-    console.log(req.body,'from post api');
+    
     const newDiaryEntry = toNewDiaryEntry(req.body);
-    console.log(newDiaryEntry,'formatted data');
     const addedEntry = diaryService.addDiary(newDiaryEntry);
     res.json(addedEntry);
   });
